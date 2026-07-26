@@ -1,0 +1,6 @@
+{
+  "name": "Nebula Process Control & IDE Platform",
+  "description": "IDE component and project management process control plan for nebula-srv with Kanban lifecycle, real-time WebSocket sync, and API mocking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
