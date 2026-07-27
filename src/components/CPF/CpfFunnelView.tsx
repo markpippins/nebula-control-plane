@@ -50,7 +50,12 @@ export const CpfFunnelView: React.FC = () => {
         apiRequest<{ items: CpfCandidate[]; dbTotal: number }>(`/cpf?all=true`),
       ]);
       setStats(statsRes);
-      setCandidates(candidatesRes.items || []);
+      const safeItems = Array.isArray(candidatesRes?.items)
+        ? candidatesRes.items
+        : Array.isArray(candidatesRes)
+        ? (candidatesRes as unknown as CpfCandidate[])
+        : [];
+      setCandidates(safeItems);
     } catch (err) {
       console.warn('[CPF] Failed to fetch CPF data:', err);
     } finally {
@@ -62,13 +67,15 @@ export const CpfFunnelView: React.FC = () => {
     fetchCpfData();
   }, [triggerRefresh]);
 
+  const safeCandidatesList = Array.isArray(candidates) ? candidates : [];
+
   // Extract unique system names
   const systemNames = Array.from(
-    new Set(candidates.map((c) => c.system_name).filter(Boolean))
+    new Set(safeCandidatesList.map((c) => c.system_name).filter(Boolean))
   ) as string[];
 
   // Filter candidates based on controls
-  const filteredCandidates = candidates.filter((cand) => {
+  const filteredCandidates = safeCandidatesList.filter((cand) => {
     // Bracket filter
     if (selectedBracket) {
       const score = cand.compilation_readiness;
@@ -709,7 +716,7 @@ export const CpfFunnelView: React.FC = () => {
                       ) : (
                         <span className="px-3 py-1.5 bg-blue-100 dark:bg-blue-950/80 text-blue-900 dark:text-blue-300 border border-blue-300 dark:border-blue-800/80 rounded text-xs font-bold flex items-center gap-1">
                           <CheckCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                          Promoted ({cand.conduit_plan_id || 'PLN-882'})
+                          Promoted ({cand.conduit_plan_id || cand.conduitPlanId || 'PLN-882'})
                         </span>
                       )}
 
@@ -741,7 +748,7 @@ export const CpfFunnelView: React.FC = () => {
 
           <div className="space-y-3">
             {candidates
-              .filter((c) => c.status === 'promoted' || c.conduit_plan_id)
+              .filter((c) => c.status === 'promoted' || c.conduit_plan_id || c.conduitPlanId)
               .map((c) => (
                 <div
                   key={c.id}
@@ -749,10 +756,10 @@ export const CpfFunnelView: React.FC = () => {
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sky-800 dark:text-sky-300">
-                      Plan ID: {c.conduit_plan_id || 'PLN-882'}
+                      Plan ID: {c.conduit_plan_id || c.conduitPlanId || 'PLN-882'}
                     </span>
                     <span className="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 rounded font-bold uppercase text-[10px]">
-                      Requirement: {c.requirement_id || 'req-101'}
+                      Requirement: {c.requirement_id || c.requirementId || 'req-101'}
                     </span>
                   </div>
 

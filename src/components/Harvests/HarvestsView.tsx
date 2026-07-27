@@ -25,11 +25,21 @@ export const HarvestsView: React.FC = () => {
     setLoading(true);
     try {
       const [hRes, cRes] = await Promise.all([
-        apiRequest<{ items: Harvest[] }>('/harvests'),
-        apiRequest<{ items: HarvestCandidate[] }>('/harvest-candidates'),
+        apiRequest<{ items: Harvest[] } | Harvest[]>('/harvests'),
+        apiRequest<{ items: HarvestCandidate[] } | HarvestCandidate[]>('/harvest-candidates'),
       ]);
-      setHarvests(hRes.items || []);
-      setCandidates(cRes.items || []);
+      const safeH = Array.isArray(hRes)
+        ? hRes
+        : Array.isArray((hRes as any)?.items)
+        ? (hRes as any).items
+        : [];
+      const safeC = Array.isArray(cRes)
+        ? cRes
+        : Array.isArray((cRes as any)?.items)
+        ? (cRes as any).items
+        : [];
+      setHarvests(safeH);
+      setCandidates(safeC);
     } catch (err) {
       console.warn('[HarvestsView] Error loading data:', err);
     } finally {

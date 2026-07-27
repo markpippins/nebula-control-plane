@@ -1,5 +1,6 @@
 import React from 'react';
 import { NebulaProvider, useNebula } from './context/NebulaContext';
+import { ErrorBoundary } from './components/Common/ErrorBoundary';
 import { AddressBar } from './components/Header/AddressBar';
 import { SidebarNav } from './components/Sidebar/SidebarNav';
 import { DashboardView } from './components/Dashboard/DashboardView';
@@ -51,7 +52,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans select-none transition-colors duration-200">
+    <div className="h-screen w-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans select-none transition-colors duration-200">
       {/* Top IDE Address Bar with Branding Box */}
       <AddressBar />
 
@@ -61,7 +62,7 @@ const AppContent: React.FC = () => {
         <SidebarNav />
 
         {/* Primary View Dashboard Area */}
-        <main className="flex-1 overflow-hidden bg-slate-100 dark:bg-slate-950 relative">
+        <main className="flex-1 overflow-hidden bg-slate-50 dark:bg-slate-950 relative">
           {renderActiveView()}
         </main>
       </div>
@@ -74,8 +75,10 @@ const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <NebulaProvider>
-      <AppContent />
-    </NebulaProvider>
+    <ErrorBoundary>
+      <NebulaProvider>
+        <AppContent />
+      </NebulaProvider>
+    </ErrorBoundary>
   );
 }

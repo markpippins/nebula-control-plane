@@ -2,19 +2,28 @@
 
 @layer base {
   :root {
-    --steel-bg: #f1f5f9;
+    --steel-bg: #f8fafc;
     --steel-card: #ffffff;
-    --steel-border: #cbd5e1;
+    --steel-border: #e2e8f0;
     --steel-text: #0f172a;
     --steel-text-muted: #475569;
     --steel-accent: #0284c7;
   }
 
   .dark {
-    --steel-bg: #090d16;
-    --steel-card: #0f172a;
-    --steel-border: #1e293b;
-    --steel-text: #f8fafc;
+    --steel-bg: #09090b;
+    --steel-card: #121215;
+    --steel-border: #27272a;
+    --steel-text: #f4f4f5;
+    --steel-text-muted: #a1a1aa;
+    --steel-accent: #38bdf8;
+  }
+
+  .steel {
+    --steel-bg: #121926;
+    --steel-card: #1c2636;
+    --steel-border: #2e3e56;
+    --steel-text: #f1f5f9;
     --steel-text-muted: #94a3b8;
     --steel-accent: #38bdf8;
   }
@@ -26,7 +35,133 @@
   }
 }
 
-/* Custom Steel Scrollbar */
+/* Light Mode Polish */
+:root:not(.dark) body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+:root:not(.dark) input,
+:root:not(.dark) select,
+:root:not(.dark) textarea {
+  color: #0f172a;
+}
+
+/* Dark Mode (Blacks over Blues) Overrides */
+.dark:not(.steel) body {
+  background-color: #09090b !important;
+  color: #f4f4f5 !important;
+}
+
+.dark:not(.steel) .bg-slate-950 {
+  background-color: #09090b !important;
+}
+
+.dark:not(.steel) .bg-slate-900 {
+  background-color: #121215 !important;
+}
+
+.dark:not(.steel) .bg-slate-900\/90,
+.dark:not(.steel) .bg-slate-900\/80,
+.dark:not(.steel) .bg-slate-900\/60,
+.dark:not(.steel) .bg-slate-950\/90,
+.dark:not(.steel) .bg-slate-950\/80,
+.dark:not(.steel) .bg-slate-950\/70,
+.dark:not(.steel) .bg-slate-950\/60,
+.dark:not(.steel) .bg-slate-950\/50 {
+  background-color: #16161a !important;
+}
+
+.dark:not(.steel) .bg-slate-950\/40,
+.dark:not(.steel) .bg-slate-950\/30,
+.dark:not(.steel) .bg-slate-950\/20,
+.dark:not(.steel) .bg-slate-800 {
+  background-color: #1e1e22 !important;
+}
+
+.dark:not(.steel) .bg-slate-800\/80,
+.dark:not(.steel) .bg-slate-800\/50,
+.dark:not(.steel) .bg-slate-700 {
+  background-color: #26262b !important;
+}
+
+.dark:not(.steel) .border-slate-800,
+.dark:not(.steel) .border-slate-800\/90,
+.dark:not(.steel) .border-slate-800\/80,
+.dark:not(.steel) .border-slate-800\/50,
+.dark:not(.steel) .border-slate-700,
+.dark:not(.steel) .border-slate-700\/50 {
+  border-color: #27272a !important;
+}
+
+.dark:not(.steel) .text-slate-100,
+.dark:not(.steel) .text-slate-200 {
+  color: #f4f4f5 !important;
+}
+
+.dark:not(.steel) .text-slate-300 {
+  color: #e4e4e7 !important;
+}
+
+.dark:not(.steel) .text-slate-400,
+.dark:not(.steel) .text-slate-500 {
+  color: #a1a1aa !important;
+}
+
+/* Steel Mode Industrial Color Scheme Overrides */
+.steel body {
+  background-color: #121926 !important;
+  color: #f1f5f9 !important;
+}
+
+.steel .bg-slate-950,
+.steel .bg-slate-900 {
+  background-color: #121926 !important;
+}
+
+.steel .bg-slate-900\/90,
+.steel .bg-slate-900\/80,
+.steel .bg-slate-900\/60,
+.steel .bg-slate-950\/90,
+.steel .bg-slate-950\/80,
+.steel .bg-slate-950\/70,
+.steel .bg-slate-950\/60,
+.steel .bg-slate-950\/50 {
+  background-color: #1c2636 !important;
+}
+
+.steel .bg-slate-950\/40,
+.steel .bg-slate-950\/30,
+.steel .bg-slate-950\/20,
+.steel .bg-slate-800 {
+  background-color: #172130 !important;
+}
+
+.steel .bg-slate-200,
+.steel .bg-slate-300 {
+  background-color: #1a2535 !important;
+}
+
+.steel .border-slate-800,
+.steel .border-slate-800\/80,
+.steel .border-slate-800\/50,
+.steel .border-slate-700,
+.steel .border-slate-700\/50,
+.steel .border-slate-300 {
+  border-color: #2e3e56 !important;
+}
+
+.steel .text-slate-200,
+.steel .text-slate-100 {
+  color: #f1f5f9 !important;
+}
+
+.steel .text-slate-400,
+.steel .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Custom Metallic Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -41,8 +176,12 @@
   border-radius: 3px;
 }
 
-.dark ::webkit-scrollbar-thumb {
-  background: #334155;
+.dark ::-webkit-scrollbar-thumb {
+  background: #27272a;
+}
+
+.steel ::-webkit-scrollbar-thumb {
+  background: #3b506e;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -50,5 +189,9 @@
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #3f3f46;
+}
+
+.steel ::-webkit-scrollbar-thumb:hover {
+  background: #526f98;
 }

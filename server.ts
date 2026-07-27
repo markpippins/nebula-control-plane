@@ -1820,6 +1820,312 @@ app.post('/api/cpf/promote', (req, res) => {
   res.json({ ok: true, promoted: true, candidate: cand, requirement: createdReq, plan: newPlan });
 });
 
+// ---------------------------------------------------------------------------
+// Additional API-Spec Compliant Endpoints (Audit, Projections, Inbox, Control)
+// ---------------------------------------------------------------------------
+
+let auditFiles: any[] = [
+  {
+    id: 'aud-001',
+    filePath: 'IMPLEMENTATION_PLANS/SYSTEM_ARCHITECTURE.md',
+    content: '# Nebula System Architecture Audit\n\n- **Service Name**: nebula-srv\n- **Database Schema**: `nebula`\n- **Event Bus**: ui-event-bus on port 3200\n- **Status**: Verified Operational\n',
+    sizeBytes: 184,
+    updatedAt: Date.now() - 86400000,
+  },
+  {
+    id: 'aud-002',
+    filePath: 'IMPLEMENTATION_PLANS/CPF_COMPILATION_PIPELINE.md',
+    content: '# Compilation Readiness Framework Audit\n\n- **Promotable Threshold**: >= 0.7\n- **Status**: 10 Candidates Evaluated\n',
+    sizeBytes: 120,
+    updatedAt: Date.now() - 43200000,
+  },
+];
+
+app.get('/api/audit', (req, res) => {
+  const items = auditFiles.map(({ content, ...meta }) => ({ ...meta, content: '' }));
+  res.json({ items, total: items.length, page: 1, pageSize: 100 });
+});
+
+app.get('/api/audit/graph', (req, res) => {
+  const entities = agentRecords.map((r) => ({ id: r.id, label: r.title, type: r.recordType, role: r.role }));
+  const edges = crossReferences.map((x) => ({ source: x.sourceId, target: x.targetId, relType: x.relType }));
+  res.json({ entities, edges, entityCount: entities.length, edgeCount: edges.length });
+});
+
+app.get('/api/audit/:id', (req, res) => {
+  const found = auditFiles.find((a) => a.id === req.params.id || a.filePath.includes(req.params.id));
+  if (!found) return res.status(404).json({ error: 'Audit file not found' });
+  res.json(found);
+});
+
+app.post('/api/audit/sync', (req, res) => {
+  res.json({ ok: true, synced: auditFiles.length, files: auditFiles.map((f) => ({ ...f, content: '' })) });
+});
+
+app.post('/api/audit/:id/regenerate', (req, res) => {
+  const found = auditFiles.find((a) => a.id === req.params.id);
+  if (found) {
+    found.updatedAt = Date.now();
+  }
+  res.json({ ok: true, message: 'Audit file regenerated from disk', file: found || auditFiles[0] });
+});
+
+let projections: any[] = [
+  {
+    id: 'proj-01',
+    name: 'Architecture Blueprint Markdown',
+    type: 'deterministic',
+    description: 'Generates system architecture overview markdown from postgres schema metadata.',
+    targetPath: 'docs/ARCHITECTURE_BLUEPRINT.md',
+    model: null,
+    schedule: '0 * * * *',
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'proj-02',
+    name: 'Agent Audit Summary',
+    type: 'inference',
+    description: 'Uses LLM summarization on agent_records to render executive audit summary.',
+    targetPath: 'docs/AUDIT_SUMMARY.md',
+    model: 'gemini-1.5-pro',
+    schedule: '0 0 * * *',
+    createdAt: new Date().toISOString(),
+  },
+];
+
+app.get('/api/projections', (req, res) => {
+  res.json({ items: projections, total: projections.length, page: 1, pageSize: 100 });
+});
+
+app.post('/api/projections', (req, res) => {
+  const newProj = {
+    id: `proj-${Date.now()}`,
+    name: req.body.name || 'New Projection',
+    type: req.body.type || 'deterministic',
+    description: req.body.description || null,
+    targetPath: req.body.targetPath || 'docs/PROJECTION.md',
+    model: req.body.model || null,
+    schedule: req.body.schedule || null,
+    createdAt: new Date().toISOString(),
+  };
+  projections.push(newProj);
+  res.status(201).json(newProj);
+});
+
+app.post('/api/projections/:id/render', (req, res) => {
+  const found = projections.find((p) => p.id === req.params.id);
+  res.json({ ok: true, message: `Rendered projection ${found?.name || req.params.id} to ${found?.targetPath || 'disk'}`, renderedAt: new Date().toISOString() });
+});
+
+app.delete('/api/projections/:id', (req, res) => {
+  projections = projections.filter((p) => p.id !== req.params.id);
+  res.json({ ok: true });
+});
+
+let inboxPointersStore: Record<string, string> = {
+  architect: new Date(Date.now() - 3600000).toISOString(),
+  engineer: new Date(Date.now() - 1800000).toISOString(),
+  planner: new Date(Date.now() - 7200000).toISOString(),
+  reviewer: new Date(Date.now() - 86400000).toISOString(),
+  inspector: new Date(Date.now() - 43200000).toISOString(),
+};
+
+app.get('/api/inbox-pointer/:role', (req, res) => {
+  const role = req.params.role;
+  res.json({ role, timestamp: inboxPointersStore[role] || null });
+});
+
+app.put('/api/inbox-pointer/:role', (req, res) => {
+  const role = req.params.role;
+  const ts = req.body.timestamp || new Date().toISOString();
+  inboxPointersStore[role] = ts;
+  res.json({ ok: true, role, timestamp: ts });
+});
+
+app.get('/api/inbox-pointers', (req, res) => {
+  res.json(inboxPointersStore);
+});
+
+let systemInfoTabsStore: Record<string, Record<string, string>> = {};
+
+app.get('/api/systems/:id/info', (req, res) => {
+  const tabs = systemInfoTabsStore[req.params.id] || {};
+  const items = Object.entries(tabs).map(([tabId, content]) => ({ tabId, content, updatedAt: new Date().toISOString() }));
+  res.json({ items, total: items.length, page: 1, pageSize: 100 });
+});
+
+app.put('/api/systems/:id/info/:tabId', (req, res) => {
+  const sysId = req.params.id;
+  const tabId = req.params.tabId;
+  if (!systemInfoTabsStore[sysId]) systemInfoTabsStore[sysId] = {};
+  systemInfoTabsStore[sysId][tabId] = req.body.content || '';
+  res.json({ ok: true, systemId: sysId, tabId, content: systemInfoTabsStore[sysId][tabId] });
+});
+
+app.delete('/api/systems/:id/info/:tabId', (req, res) => {
+  const sysId = req.params.id;
+  const tabId = req.params.tabId;
+  if (systemInfoTabsStore[sysId]) {
+    delete systemInfoTabsStore[sysId][tabId];
+  }
+  res.json({ ok: true });
+});
+
+app.get('/api/cross-references', (req, res) => {
+  res.json({ items: crossReferences, total: crossReferences.length, page: 1, pageSize: 100 });
+});
+
+app.get('/api/cross-references/:id', (req, res) => {
+  const item = crossReferences.find((x) => x.id === req.params.id);
+  if (!item) return res.status(404).json({ error: 'Cross reference not found' });
+  res.json(item);
+});
+
+let evidenceLinks: any[] = [
+  {
+    id: 'ev-001',
+    knowledgeEntityId: 'ke-001',
+    nebulaHarvestId: 'harv-101',
+    nebulaCandidateId: 'cand-001',
+    linkType: 'supports',
+    provenance: 'harv-101:transcript',
+    confidence: 0.92,
+    metadata: {},
+    createdAt: Date.now() - 86400000,
+  },
+];
+
+app.get('/api/evidence-links', (req, res) => {
+  res.json({ items: evidenceLinks, total: evidenceLinks.length, page: 1, pageSize: 100 });
+});
+
+app.get('/api/evidence-links/:id', (req, res) => {
+  const item = evidenceLinks.find((e) => e.id === req.params.id);
+  if (!item) return res.status(404).json({ error: 'Evidence link not found' });
+  res.json(item);
+});
+
+app.get('/api/knowledge/summary', (req, res) => {
+  res.json({
+    entityCount: knowledgeEntities.length,
+    edgeCount: 25,
+    crossReferenceCount: crossReferences.length,
+    bySection: [
+      { section: 'requirement', count: requirements.length },
+      { section: 'api', count: 12 },
+      { section: 'schema', count: 8 },
+    ],
+    byRelationType: [
+      { relation_type: 'depends_on', count: 15 },
+      { relation_type: 'compiles_to', count: 10 },
+    ],
+    embeddingSummary: [
+      { section: 'api', entity_count: 12, embedded_count: 12 },
+      { section: 'requirement', entity_count: requirements.length, embedded_count: requirements.length },
+    ],
+  });
+});
+
+app.get('/api/knowledge/edges', (req, res) => {
+  const items = crossReferences.map((x) => ({
+    id: x.id,
+    sourceSection: x.sourceType,
+    sourceId: x.sourceId,
+    targetSection: x.targetType,
+    targetId: x.targetId,
+    relationType: x.relType,
+    weight: 1.0,
+    createdAt: x.createdAt,
+  }));
+  res.json({ items, total: items.length, page: 1, pageSize: 100 });
+});
+
+app.post('/api/refresh-stats', (req, res) => {
+  res.json({ ok: true, refreshed: 5, views: ['v_graph_summary', 'v_requirement_stats', 'v_candidate_metrics'] });
+});
+
+app.post('/api/seed', (req, res) => {
+  res.json({ ok: true, seeded: { systems: systems.length, requirements: requirements.length, harvests: harvests.length } });
+});
+
+app.post('/api/import', (req, res) => {
+  res.json({ ok: true, imported: { records: 10 } });
+});
+
+app.post('/api/harvest-candidates/:id/spawn-plan', (req, res) => {
+  const cand = harvestCandidates.find((c) => c.id === req.params.id);
+  const planNumber = `PLN-${Math.floor(200 + Math.random() * 800)}`;
+  const xrefId = `xref-${Date.now()}`;
+  if (cand) {
+    cand.status = 'promoted';
+    cand.conduit_plan_id = planNumber;
+  }
+  res.json({ ok: true, planNumber, xrefId });
+});
+
+app.post('/api/harvest-candidates/discover', (req, res) => {
+  res.json({ ok: true, discovered: 2, totalCandidates: harvestCandidates.length + 2 });
+});
+
+app.post('/api/harvest-candidates/promote-to-plan', (req, res) => {
+  const planNumber = `PLN-${Math.floor(300 + Math.random() * 700)}`;
+  res.json({ ok: true, planNumber, message: 'Candidates collated into conduit plan' });
+});
+
+let executionLeases: any[] = [];
+
+app.post('/api/execution/leases/acquire', (req, res) => {
+  const lease = {
+    id: `lease-${Date.now()}`,
+    requestId: req.body.requestId || 'req-101',
+    owner: req.body.owner || 'worker-01',
+    status: 'ACTIVE',
+    expiresAt: new Date(Date.now() + (req.body.ttlSeconds || 300) * 1000).toISOString(),
+    createdAt: new Date().toISOString(),
+  };
+  executionLeases.push(lease);
+  res.json(lease);
+});
+
+app.post('/api/execution/leases/:id/renew', (req, res) => {
+  const lease = executionLeases.find((l) => l.id === req.params.id);
+  if (lease) {
+    lease.expiresAt = new Date(Date.now() + (req.body.ttlSeconds || 300) * 1000).toISOString();
+  }
+  res.json(lease || { id: req.params.id, status: 'ACTIVE', expiresAt: new Date(Date.now() + 300000).toISOString() });
+});
+
+app.post('/api/execution/leases/:id/release', (req, res) => {
+  const lease = executionLeases.find((l) => l.id === req.params.id);
+  if (lease) {
+    lease.status = 'RELEASED';
+  }
+  res.json({ ok: true, status: 'RELEASED' });
+});
+
+app.post('/api/execution/attempts', (req, res) => {
+  const attempt = {
+    id: `att-${Date.now()}`,
+    requestId: req.body.requestId,
+    leaseId: req.body.leaseId,
+    executorId: req.body.executorId || 'executor-01',
+    status: req.body.status || 'RUNNING',
+    createdAt: new Date().toISOString(),
+  };
+  res.status(201).json(attempt);
+});
+
+app.post('/api/agent-records/search', (req, res) => {
+  const q = (req.body.query || '').toLowerCase();
+  const items = agentRecords.filter((r) => {
+    if (q && !r.title.toLowerCase().includes(q) && !r.content.toLowerCase().includes(q)) return false;
+    if (req.body.type && r.recordType !== req.body.type) return false;
+    if (req.body.role && r.role !== req.body.role) return false;
+    return true;
+  });
+  res.json({ items, total: items.length, limit: req.body.limit || 50, offset: req.body.offset || 0 });
+});
+
 // 27. Semantic Vector Search Simulation
 app.post('/api/search/semantic', (req, res) => {
   const results = knowledgeEntities.map((ent) => ({

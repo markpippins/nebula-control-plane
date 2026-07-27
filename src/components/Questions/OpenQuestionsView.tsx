@@ -35,10 +35,15 @@ export const OpenQuestionsView: React.FC = () => {
   const loadQuestions = async () => {
     setLoading(true);
     try {
-      const res = await apiRequest<{ items: OpenQuestion[] }>('/open-questions');
-      setQuestions(res.items || []);
-      if (res.items && res.items.length > 0 && !selectedQuestion) {
-        setSelectedQuestion(res.items[0]);
+      const res = await apiRequest<{ items: OpenQuestion[] } | OpenQuestion[]>('/open-questions');
+      const items = Array.isArray(res)
+        ? res
+        : Array.isArray((res as any)?.items)
+        ? (res as any).items
+        : [];
+      setQuestions(items);
+      if (items.length > 0 && !selectedQuestion) {
+        setSelectedQuestion(items[0]);
       }
     } catch (err) {
       console.warn('[OpenQuestionsView] Error loading questions', err);

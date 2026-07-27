@@ -17,10 +17,13 @@ export type NavTab =
   | 'plansdocs'
   | 'settings';
 
+export type ThemeMode = 'light' | 'dark' | 'steel';
+
 interface NebulaContextType {
   activeTab: NavTab;
   setActiveTab: (tab: NavTab) => void;
-  theme: 'dark' | 'light';
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
   toggleTheme: () => void;
   searchOpen: boolean;
   setSearchOpen: (open: boolean) => void;
@@ -39,7 +42,10 @@ const NebulaContext = createContext<NebulaContextType | undefined>(undefined);
 
 export const NebulaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<NavTab>('dashboard');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setThemeState] = useState<ThemeMode>(() => {
+    const saved = localStorage.getItem('nebula_theme') as ThemeMode | null;
+    return saved && ['light', 'dark', 'steel'].includes(saved) ? saved : 'dark';
+  });
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [apiConfig, setApiConfigState] = useState<ApiConfig>(getApiConfig());
   const [counts, setCounts] = useState<CountsSummary | null>(null);
@@ -55,24 +61,39 @@ export const NebulaProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   ]);
   const [triggerRefresh, setTriggerRefresh] = useState<number>(0);
 
-  // Apply dark class to body/html
+  // Apply theme classes to html root
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') {
+    root.classList.remove('light', 'dark', 'steel');
+    if (theme === 'light') {
+      root.classList.add('light');
+    } else if (theme === 'dark') {
       root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
+    } else if (theme === 'steel') {
+      root.classList.add('dark', 'steel');
     }
+    localStorage.setItem('nebula_theme', theme);
   }, [theme]);
 
+  const setTheme = (newTheme: ThemeMode) => {
+    setThemeState(newTheme);
+  };
+
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    setThemeState((prev) => {
+      if (prev === 'light') return 'dark';
+      if (prev === 'dark') return 'steel';
+      return 'light';
+    });
   };
 
   const updateApiConfig = (newCfg: Partial<ApiConfig>) => {
     setApiConfig(newCfg);
     setApiConfigState(getApiConfig());
     refreshCounts();
+    if (reconnectWs) {
+      reconnectWs();
+    }
   };
 
   const refreshCounts = useCallback(async () => {
@@ -108,7 +129,7 @@ export const NebulaProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     [addActivityLog, refreshCounts]
   );
 
-  const { status: wsStatus } = useNebulaWebSocket(handleWsEvent);
+  const { status: wsStatus, reconnect: reconnectWs } = useNebulaWebSocket(handleWsEvent);
 
   useEffect(() => {
     refreshCounts();
@@ -120,6 +141,7 @@ export const NebulaProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         activeTab,
         setActiveTab,
         theme,
+        setTheme,
         toggleTheme,
         searchOpen,
         setSearchOpen,

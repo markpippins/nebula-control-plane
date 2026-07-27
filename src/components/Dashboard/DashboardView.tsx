@@ -45,13 +45,23 @@ export const DashboardView: React.FC = () => {
     setLoading(true);
     try {
       const [reqData, cpfData] = await Promise.all([
-        apiRequest<Requirement[]>('/requirements'),
+        apiRequest<Requirement[] | { items: Requirement[] }>('/requirements'),
         apiRequest<{ ready: number; promoted: number; nearMiss: number; low: number }>('/cpf/count').catch(
           () => ({ ready: 1, promoted: 2, nearMiss: 1, low: 0 })
         ),
       ]);
-      setRequirements(reqData);
-      setCpfCount(cpfData);
+      const safeReqs = Array.isArray(reqData)
+        ? reqData
+        : (reqData && Array.isArray((reqData as any).items) ? (reqData as any).items : []);
+      setRequirements(safeReqs);
+      if (cpfData && typeof cpfData === 'object') {
+        setCpfCount({
+          ready: cpfData.ready ?? 0,
+          promoted: cpfData.promoted ?? 0,
+          nearMiss: cpfData.nearMiss ?? 0,
+          low: cpfData.low ?? 0,
+        });
+      }
     } catch (err) {
       console.warn('[Dashboard] Error fetching data:', err);
     } finally {
@@ -75,8 +85,10 @@ export const DashboardView: React.FC = () => {
     Accepted: 0,
   };
 
-  requirements.forEach((r) => {
-    if (statusMap[r.status] !== undefined) {
+  const safeRequirements = Array.isArray(requirements) ? requirements : [];
+
+  safeRequirements.forEach((r) => {
+    if (r && statusMap[r.status] !== undefined) {
       statusMap[r.status]++;
     } else {
       statusMap.Backlog++;

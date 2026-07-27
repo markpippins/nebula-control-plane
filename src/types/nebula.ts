@@ -150,7 +150,9 @@ export interface CpfCandidate {
   updatedAt?: string;
   scoring_breakdown?: CpfScoringBreakdown;
   conduit_plan_id?: string | null;
+  conduitPlanId?: string | null;
   requirement_id?: string | null;
+  requirementId?: string | null;
 }
 
 export interface CpfStats {

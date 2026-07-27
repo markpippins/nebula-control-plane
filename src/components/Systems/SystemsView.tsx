@@ -43,11 +43,16 @@ export const SystemsView: React.FC = () => {
   const loadSystems = async () => {
     setLoading(true);
     try {
-      const res = await apiRequest<{ items: SystemItem[] }>('/systems');
-      setSystems(res.items || []);
+      const res = await apiRequest<{ items: SystemItem[] } | SystemItem[]>('/systems');
+      const items = Array.isArray(res)
+        ? res
+        : Array.isArray((res as any)?.items)
+        ? (res as any).items
+        : [];
+      setSystems(items);
       // Expand first system by default
-      if (res.items && res.items.length > 0) {
-        setExpandedSystems((prev) => ({ ...prev, [res.items[0].id]: true }));
+      if (items.length > 0) {
+        setExpandedSystems((prev) => ({ ...prev, [items[0].id]: true }));
       }
     } catch (err) {
       console.warn('[SystemsView] Failed to fetch systems', err);

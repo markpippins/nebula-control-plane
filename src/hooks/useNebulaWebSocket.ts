@@ -1,11 +1,13 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { WebSocketEvent } from '../types/nebula';
+import { getApiConfig } from '../services/apiClient';
 
 export interface WebSocketStatus {
   connected: boolean;
   activeClients: number;
   lastEvent: WebSocketEvent | null;
   error: string | null;
+  currentWsUrl: string;
 }
 
 export function useNebulaWebSocket(onEvent?: (event: WebSocketEvent) => void) {
@@ -14,6 +16,7 @@ export function useNebulaWebSocket(onEvent?: (event: WebSocketEvent) => void) {
     activeClients: 1,
     lastEvent: null,
     error: null,
+    currentWsUrl: '',
   });
 
   const socketRef = useRef<WebSocket | null>(null);
@@ -22,8 +25,32 @@ export function useNebulaWebSocket(onEvent?: (event: WebSocketEvent) => void) {
 
   const connect = useCallback(() => {
     try {
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/ws`;
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
+
+      const apiCfg = getApiConfig();
+      let wsUrl = apiCfg.wsUrl;
+
+      if (!wsUrl) {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        if (apiCfg.useMock || !apiCfg.baseUrl) {
+          wsUrl = `${protocol}//${window.location.host}/ws`;
+        } else if (apiCfg.baseUrl.startsWith('http')) {
+          try {
+            const u = new URL(apiCfg.baseUrl);
+            // Default to port 3200 for ui-event-bus if using default 3101 port, otherwise use URL host
+            const port = u.port === '3101' ? '3200' : (u.port || '3200');
+            wsUrl = `${protocol}//${u.hostname}:${port}/ws`;
+          } catch (e) {
+            wsUrl = `${protocol}//${window.location.hostname}:3200/ws`;
+          }
+        } else {
+          wsUrl = `${protocol}//${window.location.host}/ws`;
+        }
+      }
+
+      setStatus((prev) => ({ ...prev, currentWsUrl: wsUrl }));
 
       const ws = new WebSocket(wsUrl);
       socketRef.current = ws;
@@ -57,10 +84,6 @@ export function useNebulaWebSocket(onEvent?: (event: WebSocketEvent) => void) {
 
       ws.onclose = () => {
         setStatus((prev) => ({ ...prev, connected: false }));
-        // Try reconnecting after 3s
-        setTimeout(() => {
-          connect();
-        }, 3000);
       };
     } catch (err: any) {
       setStatus((prev) => ({ ...prev, connected: false, error: err.message }));
@@ -82,5 +105,5 @@ export function useNebulaWebSocket(onEvent?: (event: WebSocketEvent) => void) {
     }
   }, []);
 
-  return { status, sendPing };
+  return { status, sendPing, reconnect: connect };
 }

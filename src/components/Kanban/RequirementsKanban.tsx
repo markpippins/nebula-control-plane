@@ -68,13 +68,23 @@ export const RequirementsKanban: React.FC = () => {
     setLoading(true);
     try {
       const [reqs, sysRes] = await Promise.all([
-        apiRequest<Requirement[]>('/requirements'),
-        apiRequest<{ items: SystemItem[] }>('/systems'),
+        apiRequest<Requirement[] | { items: Requirement[] }>('/requirements'),
+        apiRequest<{ items: SystemItem[] } | SystemItem[]>('/systems'),
       ]);
-      setRequirements(reqs);
-      setSystems(sysRes.items || []);
-      if (sysRes.items && sysRes.items.length > 0 && !newSystemId) {
-        setNewSystemId(sysRes.items[0].id);
+      const safeReqs = Array.isArray(reqs)
+        ? reqs
+        : Array.isArray((reqs as any)?.items)
+        ? (reqs as any).items
+        : [];
+      const safeSys = Array.isArray(sysRes)
+        ? sysRes
+        : Array.isArray((sysRes as any)?.items)
+        ? (sysRes as any).items
+        : [];
+      setRequirements(safeReqs);
+      setSystems(safeSys);
+      if (safeSys.length > 0 && !newSystemId) {
+        setNewSystemId(safeSys[0].id);
       }
     } catch (err) {
       console.warn('[Kanban] Error loading data:', err);
@@ -168,7 +178,8 @@ export const RequirementsKanban: React.FC = () => {
   };
 
   // Filter requirements
-  const filteredReqs = requirements.filter((r) => {
+  const safeRequirementsList = Array.isArray(requirements) ? requirements : [];
+  const filteredReqs = safeRequirementsList.filter((r) => {
     if (selectedSystemFilter !== 'all' && r.systemId !== selectedSystemFilter) return false;
     if (
       searchQuery &&
