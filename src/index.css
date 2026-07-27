@@ -2,40 +2,42 @@
 
 @layer base {
   :root {
-    --steel-bg: #f8fafc;
-    --steel-card: #ffffff;
-    --steel-border: #e2e8f0;
-    --steel-text: #0f172a;
-    --steel-text-muted: #475569;
-    --steel-accent: #0284c7;
+    --bg-canvas: #f8fafc;
+    --bg-card: #ffffff;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-muted: #64748b;
+    --accent-color: #0284c7;
   }
 
   .dark {
-    --steel-bg: #09090b;
-    --steel-card: #121215;
-    --steel-border: #27272a;
-    --steel-text: #f4f4f5;
-    --steel-text-muted: #a1a1aa;
-    --steel-accent: #38bdf8;
+    --bg-canvas: #09090b;
+    --bg-card: #121215;
+    --border-color: #27272a;
+    --text-primary: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --accent-color: #6366f1;
   }
 
   .steel {
-    --steel-bg: #121926;
-    --steel-card: #1c2636;
-    --steel-border: #2e3e56;
-    --steel-text: #f1f5f9;
-    --steel-text-muted: #94a3b8;
-    --steel-accent: #38bdf8;
+    --bg-canvas: #121926;
+    --bg-card: #1c2636;
+    --border-color: #2e3e56;
+    --text-primary: #f1f5f9;
+    --text-muted: #94a3b8;
+    --accent-color: #38bdf8;
   }
 
   body {
-    background-color: var(--steel-bg);
-    color: var(--steel-text);
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   }
 }
 
-/* Light Mode Polish */
+/* ==========================================================================
+   1. LIGHT MODE SPECIFIC POLISH
+   ========================================================================== */
 :root:not(.dark) body {
   background-color: #f8fafc !important;
   color: #0f172a !important;
@@ -44,13 +46,27 @@
 :root:not(.dark) input,
 :root:not(.dark) select,
 :root:not(.dark) textarea {
+  background-color: #ffffff;
   color: #0f172a;
+  border-color: #cbd5e1;
 }
 
-/* Dark Mode (Blacks over Blues) Overrides */
+:root:not(.dark) ::placeholder {
+  color: #94a3b8;
+}
+
+/* ==========================================================================
+   2. DARK MODE (MIDNIGHT PITCH BLACK) POLISH
+   ========================================================================== */
 .dark:not(.steel) body {
   background-color: #09090b !important;
   color: #f4f4f5 !important;
+}
+
+.dark:not(.steel) input,
+.dark:not(.steel) select,
+.dark:not(.steel) textarea {
+  color: #f4f4f5;
 }
 
 .dark:not(.steel) .bg-slate-950 {
@@ -108,10 +124,18 @@
   color: #a1a1aa !important;
 }
 
-/* Steel Mode Industrial Color Scheme Overrides */
+/* ==========================================================================
+   3. STEEL MODE (INDUSTRIAL METALLIC SLATE) POLISH
+   ========================================================================== */
 .steel body {
   background-color: #121926 !important;
   color: #f1f5f9 !important;
+}
+
+.steel input,
+.steel select,
+.steel textarea {
+  color: #f1f5f9;
 }
 
 .steel .bg-slate-950,
@@ -161,7 +185,9 @@
   color: #94a3b8 !important;
 }
 
-/* Custom Metallic Scrollbar */
+/* ==========================================================================
+   4. SCROLLBAR & SELECTION
+   ========================================================================== */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -172,7 +198,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #94a3b8;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
@@ -185,7 +211,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: #94a3b8;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
@@ -195,3 +221,4 @@
 .steel ::-webkit-scrollbar-thumb:hover {
   background: #526f98;
 }
+

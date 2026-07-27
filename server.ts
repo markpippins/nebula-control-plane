@@ -1521,6 +1521,51 @@ app.get('/api/op-registry', (req, res) => {
   res.json({ items: opRegistry, total: opRegistry.length, page: 1, pageSize: 100 });
 });
 
+app.post('/api/op-registry', (req, res) => {
+  const opSeq = Array.isArray(req.body.opSequence)
+    ? req.body.opSequence
+    : typeof req.body.opSequence === 'string'
+    ? req.body.opSequence.split(',').map((s: string) => s.trim()).filter(Boolean)
+    : [];
+  const newEntry = {
+    id: `op-${Date.now()}`,
+    intentId: req.body.intentId || 'CUSTOM_INTENT',
+    version: req.body.version || 1,
+    label: req.body.label || req.body.intentId || 'Custom Opcode Sequence',
+    description: req.body.description || '',
+    notes: req.body.notes || null,
+    opSequence: opSeq,
+    status: req.body.status || 'active',
+    metadata: req.body.metadata || {},
+    deletedAt: null,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  opRegistry.unshift(newEntry);
+  res.status(201).json(newEntry);
+});
+
+app.post(['/api/op-registry/fork', '/api/op-registry/:id/fork'], (req, res) => {
+  const targetId = req.params.id || req.body.id || req.body.opRegistryId;
+  const target = opRegistry.find((o) => o.id === targetId) || opRegistry[0];
+
+  if (!target) {
+    return res.status(404).json({ error: 'Op Registry entry not found to fork' });
+  }
+
+  const forkedEntry = {
+    ...target,
+    id: `op-${Date.now()}`,
+    version: (target.version || 1) + 1,
+    label: `${target.label || target.intentId} (v${(target.version || 1) + 1})`,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  opRegistry.unshift(forkedEntry);
+  res.status(201).json(forkedEntry);
+});
+
 // 15. Plans
 app.get('/api/plans', (req, res) => {
   res.json({ items: plans, total: plans.length, page: 1, pageSize: 100 });
