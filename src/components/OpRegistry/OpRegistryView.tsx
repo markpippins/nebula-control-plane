@@ -35,7 +35,26 @@ export const OpRegistryView: React.FC = () => {
 
   const handleFork = async (id: string, intent: string) => {
     try {
-      await apiRequest<any>(`/op-registry/${id}/fork`, { method: 'POST' });
+      try {
+        await apiRequest<any>(`/op-registry/${id}/fork`, { method: 'POST' });
+      } catch {
+        try {
+          await apiRequest<any>(`/op-registry/fork`, { method: 'POST', body: JSON.stringify({ id, opRegistryId: id }) });
+        } catch {
+          // Fallback: Client-assisted fork via POST /op-registry
+          const target = entries.find((e) => e.id === id);
+          const seq = Array.isArray(target?.opSequence) ? target.opSequence : [];
+          await apiRequest<any>('/op-registry', {
+            method: 'POST',
+            body: JSON.stringify({
+              intentId: `${intent}_FORK`,
+              description: `Forked sequence from ${intent} (v${(target?.version || 1) + 1})`,
+              opSequence: seq,
+              version: (target?.version || 1) + 1,
+            }),
+          });
+        }
+      }
       addActivityLog('OPCODE', `Forked opcode sequence ${intent}`);
       loadData();
     } catch (err: any) {

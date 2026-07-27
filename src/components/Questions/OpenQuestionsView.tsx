@@ -35,9 +35,11 @@ export const OpenQuestionsView: React.FC = () => {
   const loadQuestions = async () => {
     setLoading(true);
     try {
-      const res = await apiRequest<{ items: OpenQuestion[] } | OpenQuestion[]>('/open-questions');
+      const res = await apiRequest<{ items: OpenQuestion[] } | { questions: OpenQuestion[] } | OpenQuestion[]>('/open-questions');
       const items = Array.isArray(res)
         ? res
+        : Array.isArray((res as any)?.questions)
+        ? (res as any).questions
         : Array.isArray((res as any)?.items)
         ? (res as any).items
         : [];
