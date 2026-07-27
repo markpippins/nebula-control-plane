@@ -161,12 +161,12 @@ export const CpfFunnelView: React.FC = () => {
   };
 
   const bracketsList = [
-    { label: '0.90-1.00', key: '0.90-1.00', count: stats?.brackets['0.90-1.00'] ?? 12, ready: true, color: 'bg-emerald-500' },
-    { label: '0.80-0.89', key: '0.80-0.89', count: stats?.brackets['0.80-0.89'] ?? 45, ready: true, color: 'bg-purple-500' },
-    { label: '0.70-0.79', key: '0.70-0.79', count: stats?.brackets['0.70-0.79'] ?? 714, ready: true, color: 'bg-indigo-500' },
-    { label: '0.60-0.69', key: '0.60-0.69', count: stats?.brackets['0.60-0.69'] ?? 81, ready: false, color: 'bg-amber-500' },
-    { label: '0.50-0.59', key: '0.50-0.59', count: stats?.brackets['0.50-0.59'] ?? 55, ready: false, color: 'bg-orange-500' },
-    { label: '0.00-0.49', key: '0.00-0.49', count: stats?.brackets['0.00-0.49'] ?? 161, ready: false, color: 'bg-slate-500' },
+    { label: '0.90-1.00', key: '0.90-1.00', count: stats?.brackets?.['0.90-1.00'] ?? 12, ready: true, color: 'bg-emerald-500' },
+    { label: '0.80-0.89', key: '0.80-0.89', count: stats?.brackets?.['0.80-0.89'] ?? 45, ready: true, color: 'bg-purple-500' },
+    { label: '0.70-0.79', key: '0.70-0.79', count: stats?.brackets?.['0.70-0.79'] ?? 714, ready: true, color: 'bg-indigo-500' },
+    { label: '0.60-0.69', key: '0.60-0.69', count: stats?.brackets?.['0.60-0.69'] ?? 81, ready: false, color: 'bg-amber-500' },
+    { label: '0.50-0.59', key: '0.50-0.59', count: stats?.brackets?.['0.50-0.59'] ?? 55, ready: false, color: 'bg-orange-500' },
+    { label: '0.00-0.49', key: '0.00-0.49', count: stats?.brackets?.['0.00-0.49'] ?? 161, ready: false, color: 'bg-slate-500' },
   ];
 
   const maxBracketCount = Math.max(...bracketsList.map((b) => b.count), 1);
