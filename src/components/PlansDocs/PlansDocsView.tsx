@@ -15,6 +15,55 @@ interface ProjectionConfig {
   createdAt?: string;
 }
 
+type PlanApiRecord = Partial<ImplementationPlan> & {
+  filesAffected?: string[];
+  acceptanceCriteria?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+type ProjectionApiRecord = Partial<ProjectionConfig> & {
+  target_path?: string;
+  created_at?: string;
+};
+
+function extractItems<T>(response: T[] | { items?: T[] }): T[] {
+  return Array.isArray(response) ? response : response.items || [];
+}
+
+/** Normalize mock snake_case and live camelCase plan responses locally. */
+function normalizePlan(item: PlanApiRecord): ImplementationPlan {
+  return {
+    id: item.id || '',
+    title: item.title || '',
+    goal: item.goal || '',
+    content: item.content || '',
+    files_affected: item.files_affected || item.filesAffected || [],
+    acceptance_criteria: item.acceptance_criteria || item.acceptanceCriteria || [],
+    dependencies: item.dependencies || [],
+    status: item.status || 'pending',
+    metadata: item.metadata,
+    created_at: item.created_at || item.createdAt || '',
+    updated_at: item.updated_at || item.updatedAt || '',
+    sizeBytes: item.sizeBytes,
+    modifiedAt: item.modifiedAt,
+  };
+}
+
+/** Normalize mock snake_case and live camelCase projection responses locally. */
+function normalizeProjection(item: ProjectionApiRecord): ProjectionConfig {
+  return {
+    id: item.id || '',
+    name: item.name || '',
+    type: item.type || 'deterministic',
+    description: item.description,
+    targetPath: item.targetPath || item.target_path || '',
+    model: item.model,
+    schedule: item.schedule,
+    createdAt: item.createdAt || item.created_at,
+  };
+}
+
 export const PlansDocsView: React.FC = () => {
   const { triggerRefresh, addActivityLog } = useNebula();
   const [plans, setPlans] = useState<ImplementationPlan[]>([]);
@@ -31,11 +80,11 @@ export const PlansDocsView: React.FC = () => {
     setLoading(true);
     try {
       const [plansRes, projRes] = await Promise.all([
-        apiRequest<{ items: ImplementationPlan[] }>('/plans').catch(() => ({ items: [] })),
-        apiRequest<{ items: ProjectionConfig[] }>('/projections').catch(() => ({ items: [] })),
+        apiRequest<PlanApiRecord[] | { items?: PlanApiRecord[] }>('/plans').catch(() => ({ items: [] })),
+        apiRequest<ProjectionApiRecord[] | { items?: ProjectionApiRecord[] }>('/projections').catch(() => ({ items: [] })),
       ]);
-      setPlans(plansRes.items || []);
-      setProjections(projRes.items || []);
+      setPlans(extractItems(plansRes).map(normalizePlan));
+      setProjections(extractItems(projRes).map(normalizeProjection));
     } catch (err) {
       console.warn('[PlansDocsView] Error loading data:', err);
     } finally {
@@ -160,7 +209,7 @@ export const PlansDocsView: React.FC = () => {
 
               <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-200 dark:border-slate-800">
                 <span>Affected Files: {p.files_affected.join(', ') || 'None'}</span>
-                <span>Created: {new Date(p.created_at).toLocaleDateString()}</span>
+                <span>Created: {p.created_at ? new Date(p.created_at).toLocaleDateString() : 'Unknown'}</span>
               </div>
             </div>
           ))}
