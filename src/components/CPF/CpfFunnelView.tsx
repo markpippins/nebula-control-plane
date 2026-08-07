@@ -180,12 +180,12 @@ export const CpfFunnelView: React.FC = () => {
             <Filter className="w-5 h-5 text-purple-700 dark:text-purple-400" />
             COMPILATION-ADJACENT READINESS (CPF) FUNNEL
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Surfacing harvest candidates ordered by readiness — solving the &quot;what&apos;s pending to compile?&quot; workflow
           </p>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs">
+        <div className="flex items-center gap-2 font-mono text-sm">
           <span className="px-3 py-1 bg-purple-100 dark:bg-purple-950/80 text-purple-900 dark:text-purple-300 border border-purple-300 dark:border-purple-800/80 rounded font-bold flex items-center gap-1.5 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
             {stats?.ready ?? 771} Ready Candidates (CPF ≥ {threshold})
@@ -202,7 +202,7 @@ export const CpfFunnelView: React.FC = () => {
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center gap-1 border-b border-slate-300 dark:border-slate-800 font-mono text-xs">
+      <div className="flex items-center gap-1 border-b border-slate-300 dark:border-slate-800 font-mono text-sm">
         <button
           onClick={() => {
             setActiveSubTab('funnel');
@@ -290,7 +290,7 @@ export const CpfFunnelView: React.FC = () => {
       </div>
 
       {/* Terminal Command Banner */}
-      <div className="bg-slate-900 border border-slate-800 rounded-lg p-2.5 font-mono text-xs flex items-center justify-between text-slate-300">
+      <div className="bg-slate-900 border border-slate-800 rounded-lg p-2.5 font-mono text-sm flex items-center justify-between text-slate-300">
         <div className="flex items-center gap-2 overflow-x-auto">
           <Terminal className="w-4 h-4 text-purple-400 shrink-0" />
           <span className="text-slate-500">$</span>
@@ -313,12 +313,12 @@ export const CpfFunnelView: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
           {/* Threshold Slider (col-span-5) */}
           <div className="md:col-span-5 space-y-1.5">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+            <div className="flex items-center justify-between text-sm font-bold text-slate-700 dark:text-slate-300">
               <span className="flex items-center gap-1.5">
                 <Sliders className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                 CPF Threshold Cutoff:
               </span>
-              <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 text-purple-900 dark:text-purple-300 border border-purple-300 dark:border-purple-800 rounded text-xs">
+              <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 text-purple-900 dark:text-purple-300 border border-purple-300 dark:border-purple-800 rounded text-sm">
                 ≥ {threshold.toFixed(2)}
               </span>
             </div>
@@ -354,7 +354,7 @@ export const CpfFunnelView: React.FC = () => {
             <select
               value={selectedSystem}
               onChange={(e) => setSelectedSystem(e.target.value)}
-              className="w-full bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-1.5 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-purple-500 font-semibold"
+              className="w-full bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-1.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-purple-500 font-semibold"
             >
               <option value="all">All Systems ({systemNames.length})</option>
               {systemNames.map((s) => (
@@ -377,14 +377,14 @@ export const CpfFunnelView: React.FC = () => {
                 placeholder="Title, intent, tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-purple-500 font-semibold"
+                className="w-full pl-8 pr-3 py-1.5 bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-purple-500 font-semibold"
               />
             </div>
           </div>
         </div>
 
         {/* Quick Actions & Filter Pills */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
           <div className="flex items-center gap-1.5">
             <span className="text-slate-500 text-[11px]">Filter Status:</span>
             {['ready', 'pending', 'promoted', 'all'].map((st) => (
@@ -420,7 +420,7 @@ export const CpfFunnelView: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePromoteReadyBatch}
-              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-colors"
+              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-bold text-sm flex items-center gap-1.5 shadow-2xs transition-colors"
             >
               <Zap className="w-3.5 h-3.5" />
               Promote Ready Batch (Top 5)
@@ -435,14 +435,14 @@ export const CpfFunnelView: React.FC = () => {
           {/* Funnel Visual Bars (col-span-7) */}
           <div className="lg:col-span-7 bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-3 shadow-xs">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-purple-800 dark:text-purple-400 flex items-center gap-2">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-purple-800 dark:text-purple-400 flex items-center gap-2">
                 <Filter className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 CPF Readiness Score Distribution
               </h2>
-              <span className="text-xs text-slate-500 font-bold">Total Candidates: {stats?.total ?? 1013}</span>
+              <span className="text-sm text-slate-500 font-bold">Total Candidates: {stats?.total ?? 1013}</span>
             </div>
 
-            <p className="text-xs text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               Click any score bracket bar to isolate candidates in that readiness window.
             </p>
 
@@ -454,7 +454,7 @@ export const CpfFunnelView: React.FC = () => {
 
                 return (
                   <div key={b.key} className="space-y-1">
-                    <div className="flex items-center justify-between text-xs font-bold">
+                    <div className="flex items-center justify-between text-sm font-bold">
                       <span className="flex items-center gap-2">
                         <span
                           className={`w-2 h-2 rounded-full ${
@@ -484,7 +484,7 @@ export const CpfFunnelView: React.FC = () => {
                       }`}
                     >
                       <div
-                        className={`h-full rounded text-white font-bold text-xs flex items-center px-3 transition-all ${
+                        className={`h-full rounded text-white font-bold text-sm flex items-center px-3 transition-all ${
                           b.color
                         } shadow-2xs`}
                         style={{ width: `${widthPct}%` }}
@@ -509,11 +509,11 @@ export const CpfFunnelView: React.FC = () => {
           {/* Funnel Pipeline Overview Stats (col-span-5) */}
           <div className="lg:col-span-5 space-y-3">
             <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-3 shadow-xs">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800 pb-2">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800 pb-2">
                 Pipeline Lifecycle Summary (2026-07)
               </h3>
 
-              <div className="space-y-2 text-xs">
+              <div className="space-y-2 text-sm">
                 <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800/80 rounded-md flex items-center justify-between">
                   <div>
                     <div className="font-bold text-emerald-900 dark:text-emerald-300">
@@ -573,7 +573,7 @@ export const CpfFunnelView: React.FC = () => {
             </div>
 
             {/* Automation Cron Status Widget */}
-            <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-3.5 space-y-2 text-xs shadow-xs">
+            <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-3.5 space-y-2 text-sm shadow-xs">
               <h4 className="font-bold text-purple-700 dark:text-purple-400 flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
                 Automated Background Pipeline Cron
@@ -591,7 +591,7 @@ export const CpfFunnelView: React.FC = () => {
       {(activeSubTab === 'funnel' || activeSubTab === 'ready' || activeSubTab === 'promoted') && (
         <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-3 font-mono shadow-xs">
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2">
               <Layers className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               Candidate Queue ({filteredCandidates.length} displayed)
             </h2>
@@ -612,7 +612,7 @@ export const CpfFunnelView: React.FC = () => {
                   setSelectedBracket(null);
                   setStatusFilter('all');
                 }}
-                className="px-3 py-1 bg-purple-600 text-white rounded text-xs font-bold"
+                className="px-3 py-1 bg-purple-600 text-white rounded text-sm font-bold"
               >
                 Reset Filters
               </button>
@@ -634,7 +634,7 @@ export const CpfFunnelView: React.FC = () => {
                     }`}
                   >
                     <div className="space-y-1.5 flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap text-xs">
+                      <div className="flex items-center gap-2 flex-wrap text-sm">
                         {/* Score Pill */}
                         <span
                           className={`px-2 py-0.5 rounded font-bold text-[11px] ${
@@ -677,7 +677,7 @@ export const CpfFunnelView: React.FC = () => {
                       </h3>
 
                       {cand.intent_description && (
-                        <p className="text-slate-600 dark:text-slate-400 text-xs line-clamp-2 leading-relaxed">
+                        <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 leading-relaxed">
                           {cand.intent_description}
                         </p>
                       )}
@@ -704,7 +704,7 @@ export const CpfFunnelView: React.FC = () => {
                         <button
                           onClick={(e) => handlePromote(cand.id, e)}
                           disabled={promotingId === cand.id}
-                          className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-400 text-white rounded text-xs font-bold flex items-center gap-1 shadow-2xs transition-colors"
+                          className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-400 text-white rounded text-sm font-bold flex items-center gap-1 shadow-2xs transition-colors"
                         >
                           {promotingId === cand.id ? (
                             <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -714,7 +714,7 @@ export const CpfFunnelView: React.FC = () => {
                           Promote to Pipeline
                         </button>
                       ) : (
-                        <span className="px-3 py-1.5 bg-blue-100 dark:bg-blue-950/80 text-blue-900 dark:text-blue-300 border border-blue-300 dark:border-blue-800/80 rounded text-xs font-bold flex items-center gap-1">
+                        <span className="px-3 py-1.5 bg-blue-100 dark:bg-blue-950/80 text-blue-900 dark:text-blue-300 border border-blue-300 dark:border-blue-800/80 rounded text-sm font-bold flex items-center gap-1">
                           <CheckCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                           Promoted ({cand.conduit_plan_id || cand.conduitPlanId || 'PLN-882'})
                         </span>
@@ -734,13 +734,13 @@ export const CpfFunnelView: React.FC = () => {
       {activeSubTab === 'pipeline' && (
         <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-3 font-mono shadow-xs">
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-800 dark:text-sky-400 flex items-center gap-2">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-sky-800 dark:text-sky-400 flex items-center gap-2">
               <GitFork className="w-4 h-4 text-sky-600 dark:text-sky-400" />
               Promoted Conduit Plans Linked to Candidates
             </h2>
             <button
               onClick={() => setActiveTab('plansdocs')}
-              className="text-xs text-sky-600 dark:text-sky-400 font-bold hover:underline flex items-center gap-1"
+              className="text-sm text-sky-600 dark:text-sky-400 font-bold hover:underline flex items-center gap-1"
             >
               Open Full Plans Explorer <ExternalLink className="w-3 h-3" />
             </button>
@@ -752,7 +752,7 @@ export const CpfFunnelView: React.FC = () => {
               .map((c) => (
                 <div
                   key={c.id}
-                  className="p-3 bg-slate-50 dark:bg-slate-950 border border-sky-200 dark:border-sky-900/60 rounded-md space-y-2 text-xs"
+                  className="p-3 bg-slate-50 dark:bg-slate-950 border border-sky-200 dark:border-sky-900/60 rounded-md space-y-2 text-sm"
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sky-800 dark:text-sky-300">
@@ -784,84 +784,84 @@ export const CpfFunnelView: React.FC = () => {
       {activeSubTab === 'scoring' && (
         <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-4 font-mono shadow-xs">
           <div className="border-b border-slate-200 dark:border-slate-800 pb-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-2">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-2">
               <Info className="w-4 h-4 text-amber-600 dark:text-amber-400" />
               CPF Scoring Components Breakdown (0.00 – 1.00)
             </h2>
-            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
               The Compilation-adjacent Readiness (CPF) score evaluates candidate completeness across 6 mathematical weights.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg space-y-2">
-              <div className="flex items-center justify-between font-bold text-xs text-purple-700 dark:text-purple-400">
+              <div className="flex items-center justify-between font-bold text-sm text-purple-700 dark:text-purple-400">
                 <span>1. intent_filled</span>
                 <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 border border-purple-300 dark:border-purple-800 rounded">
                   Weight: 0.20
                 </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Evaluates presence of a non-empty, detailed operational intent description specifying user/architect goals.
               </p>
             </div>
 
             <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg space-y-2">
-              <div className="flex items-center justify-between font-bold text-xs text-purple-700 dark:text-purple-400">
+              <div className="flex items-center justify-between font-bold text-sm text-purple-700 dark:text-purple-400">
                 <span>2. hierarchy_mapped</span>
                 <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 border border-purple-300 dark:border-purple-800 rounded">
                   Weight: 0.20
                 </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 System (0.10) + Subsystem (0.07) + Feature (0.03) structural mapping across the system tree.
               </p>
             </div>
 
             <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg space-y-2">
-              <div className="flex items-center justify-between font-bold text-xs text-purple-700 dark:text-purple-400">
+              <div className="flex items-center justify-between font-bold text-sm text-purple-700 dark:text-purple-400">
                 <span>3. tagged</span>
                 <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 border border-purple-300 dark:border-purple-800 rounded">
                   Weight: 0.10
                 </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Categorization quality: 2 or more tags (0.10), single tag (0.03), or untagged (0.00).
               </p>
             </div>
 
             <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg space-y-2">
-              <div className="flex items-center justify-between font-bold text-xs text-purple-700 dark:text-purple-400">
+              <div className="flex items-center justify-between font-bold text-sm text-purple-700 dark:text-purple-400">
                 <span>4. has_artifacts</span>
                 <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 border border-purple-300 dark:border-purple-800 rounded">
                   Weight: 0.20
                 </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Implementation notes (0.10) + code snippets or technical specifications (0.10).
               </p>
             </div>
 
             <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg space-y-2">
-              <div className="flex items-center justify-between font-bold text-xs text-purple-700 dark:text-purple-400">
+              <div className="flex items-center justify-between font-bold text-sm text-purple-700 dark:text-purple-400">
                 <span>5. deps_resolved</span>
                 <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 border border-purple-300 dark:border-purple-800 rounded">
                   Weight: 0.20
                 </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 DAG dependency resolution: all upstream candidate dependencies promoted or completed.
               </p>
             </div>
 
             <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg space-y-2">
-              <div className="flex items-center justify-between font-bold text-xs text-purple-700 dark:text-purple-400">
+              <div className="flex items-center justify-between font-bold text-sm text-purple-700 dark:text-purple-400">
                 <span>6. reconciled</span>
                 <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-950 border border-purple-300 dark:border-purple-800 rounded">
                   Weight: 0.10
                 </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 3-path reconciliation verification flag confirming consistency with source transcripts.
               </p>
             </div>
@@ -872,7 +872,7 @@ export const CpfFunnelView: React.FC = () => {
       {/* SUB-VIEW 6: RAW CLI JSON OUTPUT */}
       {activeSubTab === 'raw_json' && (
         <div className="bg-slate-950 text-slate-100 border border-slate-800 rounded-lg p-4 font-mono space-y-3 shadow-xs">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2 text-xs">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2 text-sm">
             <span className="font-bold text-purple-400 flex items-center gap-1.5">
               <Terminal className="w-4 h-4" />
               cpf_query.py --json Output Payload
@@ -930,7 +930,7 @@ export const CpfFunnelView: React.FC = () => {
               </button>
             </div>
 
-            <div className="space-y-3 text-xs">
+            <div className="space-y-3 text-sm">
               <div>
                 <span className="font-bold text-slate-500 block mb-1">Intent Description:</span>
                 <p className="p-2.5 bg-slate-50 dark:bg-slate-950 rounded border border-slate-200 dark:border-slate-800 leading-relaxed text-slate-700 dark:text-slate-300">
@@ -1005,7 +1005,7 @@ export const CpfFunnelView: React.FC = () => {
                 <button
                   onClick={() => handlePromote(selectedCandidate.id)}
                   disabled={promotingId === selectedCandidate.id}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded font-bold text-xs flex items-center gap-1.5 shadow-2xs"
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded font-bold text-sm flex items-center gap-1.5 shadow-2xs"
                 >
                   <Zap className="w-3.5 h-3.5" />
                   Promote Candidate to Requirement Pipeline
@@ -1013,7 +1013,7 @@ export const CpfFunnelView: React.FC = () => {
               )}
               <button
                 onClick={() => setSelectedCandidate(null)}
-                className="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-800 dark:text-slate-200 rounded font-bold text-xs"
+                className="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-800 dark:text-slate-200 rounded font-bold text-sm"
               >
                 Close
               </button>

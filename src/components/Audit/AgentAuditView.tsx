@@ -127,19 +127,19 @@ export const AgentAuditView: React.FC = () => {
   });
 
   return (
-    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-xs">
+    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-300 dark:border-slate-800 pb-3">
         <div>
           <h1 className="text-lg font-bold tracking-tight text-blue-700 dark:text-blue-400 flex items-center gap-2">
             <FileCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             AGENT AUDIT RECORDS & JOURNAL LOGS
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Durable audit trails, control plane synchronization, and AGENTS.md inbox pointers
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+        <div className="flex flex-wrap items-center gap-2 font-mono text-sm">
           <button
             onClick={handleSyncAudit}
             disabled={syncing}
@@ -184,7 +184,7 @@ export const AgentAuditView: React.FC = () => {
       </div>
 
       {/* Record Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-xs">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-sm">
         {filteredRecords.map((rec) => (
           <div
             key={rec.id}
@@ -222,7 +222,7 @@ export const AgentAuditView: React.FC = () => {
       {/* Detail Modal */}
       {selectedRecord && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-2xl max-h-[85vh] overflow-y-auto space-y-4 font-mono text-xs text-slate-900 dark:text-slate-200 shadow-2xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-2xl max-h-[85vh] overflow-y-auto space-y-4 font-mono text-sm text-slate-900 dark:text-slate-200 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
               <h2 className="text-sm font-bold text-blue-700 dark:text-blue-400 flex items-center gap-2">
                 <FileText className="w-4 h-4" />
@@ -263,7 +263,7 @@ export const AgentAuditView: React.FC = () => {
       {/* Inbox Pointers Modal */}
       {inboxModalOpen && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-lg space-y-4 font-mono text-xs text-slate-900 dark:text-slate-200 shadow-2xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-lg space-y-4 font-mono text-sm text-slate-900 dark:text-slate-200 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
               <h2 className="text-sm font-bold text-purple-700 dark:text-purple-400 flex items-center gap-2">
                 <Inbox className="w-4 h-4" />

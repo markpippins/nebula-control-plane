@@ -67,14 +67,14 @@ export const OpRegistryView: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-xs">
+    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-300 dark:border-slate-800 pb-3">
         <div>
           <h1 className="text-lg font-bold tracking-tight text-purple-700 dark:text-purple-400 flex items-center gap-2">
             <Code2 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             OPCODE SEQUENCE REGISTRY
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Known operational intents mapped to executable opcode sequences
           </p>
         </div>
@@ -132,7 +132,7 @@ export const OpRegistryView: React.FC = () => {
                 </div>
               </div>
 
-              <p className="text-slate-700 dark:text-slate-300 text-xs">{item.description || 'No description provided.'}</p>
+              <p className="text-slate-700 dark:text-slate-300 text-sm">{item.description || 'No description provided.'}</p>
 
               <div className="space-y-1">
                 <span className="text-slate-600 dark:text-slate-400 font-bold">Opcode Sequence ({sequence.length}):</span>

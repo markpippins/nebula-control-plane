@@ -139,19 +139,19 @@ export const PlansDocsView: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-xs">
+    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-300 dark:border-slate-800 pb-3">
         <div>
           <h1 className="text-lg font-bold tracking-tight text-teal-700 dark:text-teal-400 flex items-center gap-2">
             <FileText className="w-5 h-5 text-teal-600 dark:text-teal-400" />
             IMPLEMENTATION PLANS & AUDIT PROJECTION ENGINE
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Conduit implementation plans, goal specifications, and filesystem markdown projection rules
           </p>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs">
+        <div className="flex items-center gap-2 font-mono text-sm">
           <div className="flex bg-slate-200 dark:bg-slate-900 p-0.5 rounded border border-slate-300 dark:border-slate-800">
             <button
               onClick={() => setActiveTab('plans')}
@@ -201,7 +201,7 @@ export const PlansDocsView: React.FC = () => {
                 </span>
               </div>
 
-              <p className="text-slate-700 dark:text-slate-300 text-xs">{p.goal}</p>
+              <p className="text-slate-700 dark:text-slate-300 text-sm">{p.goal}</p>
 
               <div className="p-3 bg-slate-50 dark:bg-slate-950 rounded border border-slate-200 dark:border-slate-800 whitespace-pre-wrap leading-relaxed text-slate-700 dark:text-slate-400 text-[11px]">
                 {p.content}
@@ -229,7 +229,7 @@ export const PlansDocsView: React.FC = () => {
                   </span>
                 </div>
 
-                <p className="text-slate-600 dark:text-slate-400 text-xs">{proj.description || 'No description provided.'}</p>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{proj.description || 'No description provided.'}</p>
 
                 <div className="p-2 bg-slate-50 dark:bg-slate-950 rounded border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-emerald-700 dark:text-emerald-400">
                   Target: {proj.targetPath}
@@ -239,7 +239,7 @@ export const PlansDocsView: React.FC = () => {
               <div className="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-800">
                 <button
                   onClick={() => handleRenderProjection(proj.id, proj.name)}
-                  className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded flex items-center gap-1.5 cursor-pointer text-xs"
+                  className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded flex items-center gap-1.5 cursor-pointer text-sm"
                 >
                   <Play className="w-3.5 h-3.5" />
                   Render to Disk
@@ -247,7 +247,7 @@ export const PlansDocsView: React.FC = () => {
 
                 <button
                   onClick={() => handleDeleteProjection(proj.id)}
-                  className="px-2.5 py-1.5 bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-400 border border-red-300 dark:border-red-800 rounded font-bold hover:bg-red-200 cursor-pointer text-xs"
+                  className="px-2.5 py-1.5 bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-400 border border-red-300 dark:border-red-800 rounded font-bold hover:bg-red-200 cursor-pointer text-sm"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -259,7 +259,7 @@ export const PlansDocsView: React.FC = () => {
 
       {/* Create Projection Modal */}
       {createModalOpen && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 font-mono text-xs">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 font-mono text-sm">
           <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-4 text-slate-900 dark:text-slate-200 shadow-2xl">
             <h2 className="text-sm font-bold text-teal-700 dark:text-teal-400 border-b border-slate-200 dark:border-slate-800 pb-2">
               Create New Projection Rule

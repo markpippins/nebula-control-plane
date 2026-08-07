@@ -155,14 +155,14 @@ export const SystemsView: React.FC = () => {
             <Boxes className="w-5 h-5 text-sky-700 dark:text-indigo-400" />
             SYSTEMS & SUBSYSTEMS HIERARCHY
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Systems → Organizational Folders & Subsystems → Features
           </p>
         </div>
 
         <button
           onClick={() => setAddSystemModal(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 dark:bg-indigo-600 hover:bg-sky-500 dark:hover:bg-indigo-500 text-white rounded text-xs font-mono font-semibold transition-colors shadow-xs"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 dark:bg-indigo-600 hover:bg-sky-500 dark:hover:bg-indigo-500 text-white rounded text-sm font-mono font-semibold transition-colors shadow-xs"
         >
           <Plus className="w-4 h-4" />
           Add System
@@ -177,7 +177,7 @@ export const SystemsView: React.FC = () => {
           return (
             <div
               key={sys.id}
-              className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg overflow-hidden text-xs shadow-xs"
+              className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg overflow-hidden text-sm shadow-xs"
             >
               {/* System Header Bar */}
               <div className="p-3 bg-slate-100 dark:bg-slate-900 flex items-center justify-between hover:bg-slate-200/80 dark:hover:bg-slate-800/80 transition-colors">
@@ -300,7 +300,7 @@ export const SystemsView: React.FC = () => {
       {/* Modal Add System */}
       {addSystemModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-xs shadow-xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-sm shadow-xl">
             <h2 className="text-sm font-bold text-sky-700 dark:text-indigo-400">ADD NEW SYSTEM</h2>
             <input
               type="text"
@@ -337,7 +337,7 @@ export const SystemsView: React.FC = () => {
       {/* Modal Add Subsystem */}
       {addSubsystemModalSysId && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-xs shadow-xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-sm shadow-xl">
             <h2 className="text-sm font-bold text-sky-700 dark:text-indigo-400">ADD SUBSYSTEM</h2>
             <input
               type="text"
@@ -374,7 +374,7 @@ export const SystemsView: React.FC = () => {
       {/* Modal Add Feature */}
       {addFeatureModalSubId && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-xs shadow-xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-sm shadow-xl">
             <h2 className="text-sm font-bold text-sky-700 dark:text-indigo-400">ADD FEATURE</h2>
             <input
               type="text"
@@ -411,7 +411,7 @@ export const SystemsView: React.FC = () => {
       {/* Modal Demote System */}
       {demoteModalSysId && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-xs shadow-xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-sm shadow-xl">
             <h2 className="text-sm font-bold text-amber-700 dark:text-amber-400">DEMOTE SYSTEM INTO SUBSYSTEM</h2>
             <p className="text-slate-600 dark:text-slate-400">
               Select the parent system to absorb this system's subsystems as features:

@@ -70,14 +70,14 @@ export const MockConfigModal: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-xs">
+    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-sm">
       <div className="border-b border-slate-300 dark:border-slate-800 pb-3 flex items-center justify-between">
         <div>
           <h1 className="text-lg font-bold tracking-tight text-sky-700 dark:text-indigo-400 flex items-center gap-2">
             <Sliders className="w-5 h-5 text-sky-700 dark:text-indigo-400" />
             MOCKING SCHEME & CONTROL PLANE ENGINE
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Configure REST endpoint targets, real-time WebSocket event buses, and control plane triggers
           </p>
         </div>
@@ -91,12 +91,12 @@ export const MockConfigModal: React.FC = () => {
 
       {/* Visual Theme Selection (Light, Dark, Steel) */}
       <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-3 shadow-2xs">
-        <h2 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+        <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
           <Palette className="w-4 h-4 text-purple-600 dark:text-purple-400" />
           IDE Color Scheme & Visual Theme Selection
         </h2>
 
-        <p className="text-xs text-slate-600 dark:text-slate-400">
+        <p className="text-sm text-slate-600 dark:text-slate-400">
           Switch between Light, Dark (carbon-black), and Industrial Steel color schemes.
         </p>
 
@@ -111,7 +111,7 @@ export const MockConfigModal: React.FC = () => {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="flex items-center gap-1.5 font-bold text-xs text-amber-900 dark:text-amber-300">
+              <span className="flex items-center gap-1.5 font-bold text-sm text-amber-900 dark:text-amber-300">
                 <Sun className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 LIGHT MODE
               </span>
@@ -132,7 +132,7 @@ export const MockConfigModal: React.FC = () => {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="flex items-center gap-1.5 font-bold text-xs text-indigo-400">
+              <span className="flex items-center gap-1.5 font-bold text-sm text-indigo-400">
                 <Moon className="w-4 h-4 text-indigo-400" />
                 DARK MODE (CARBON BLACK)
               </span>
@@ -153,7 +153,7 @@ export const MockConfigModal: React.FC = () => {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="flex items-center gap-1.5 font-bold text-xs text-sky-400">
+              <span className="flex items-center gap-1.5 font-bold text-sm text-sky-400">
                 <Shield className="w-4 h-4 text-sky-400" />
                 STEEL MODE
               </span>
@@ -168,7 +168,7 @@ export const MockConfigModal: React.FC = () => {
 
       {/* Target API Mode Selection */}
       <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-3 shadow-2xs">
-        <h2 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+        <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
           <Server className="w-4 h-4 text-sky-600 dark:text-indigo-400" />
           Active Backend Endpoint & Health Verification
         </h2>
@@ -284,12 +284,12 @@ export const MockConfigModal: React.FC = () => {
 
       {/* Control Plane Operations Surface */}
       <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-3 shadow-2xs">
-        <h2 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+        <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
           <Zap className="w-4 h-4 text-amber-500" />
           Control Plane Operational Endpoints
         </h2>
 
-        <p className="text-xs text-slate-600 dark:text-slate-400">
+        <p className="text-sm text-slate-600 dark:text-slate-400">
           Execute write & sync operations against the active backend server:
         </p>
 
@@ -350,7 +350,7 @@ export const MockConfigModal: React.FC = () => {
 
       {/* Real-time WebSockets Engine */}
       <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-2 shadow-2xs">
-        <h2 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+        <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
           <Radio className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           Real-Time WebSocket Synchronization Status
         </h2>
