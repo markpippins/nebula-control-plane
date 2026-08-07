@@ -118,7 +118,7 @@ export const SidebarNav: React.FC = () => {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-xs font-medium transition-all group ${
+              className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-sm font-medium transition-all group ${
                 isActive
                   ? 'bg-indigo-600 text-white shadow-xs font-semibold'
                   : 'text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900/80'
@@ -152,7 +152,7 @@ export const SidebarNav: React.FC = () => {
       {/* Footer / System Status */}
       <div className="p-2.5 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-950/60 font-mono text-[11px] text-slate-600 dark:text-slate-400 space-y-1.5">
         <div className="flex items-center justify-between">
-          <span className="flex items-center gap-1.5 text-xs">
+          <span className="flex items-center gap-1.5 text-sm">
             <Activity className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span className="font-semibold text-slate-800 dark:text-slate-200">nebula-srv v2.4</span>
           </span>
