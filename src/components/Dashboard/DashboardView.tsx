@@ -111,7 +111,7 @@ export const DashboardView: React.FC = () => {
             <Boxes className="w-5 h-5 text-sky-700 dark:text-indigo-400" />
             PROCESS CONTROL DASHBOARD // NEBULA-SRV
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Real-time synchronization & compiler lifecycle monitoring
           </p>
         </div>
@@ -122,7 +122,7 @@ export const DashboardView: React.FC = () => {
               refreshCounts();
               loadDashboardData();
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded text-sm font-mono transition-colors font-semibold"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded text-xs font-mono transition-colors font-semibold"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh Signals
@@ -137,7 +137,7 @@ export const DashboardView: React.FC = () => {
           className="bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-300 dark:border-slate-800/90 rounded-lg p-3 cursor-pointer transition-all hover:border-sky-500/60 dark:hover:border-indigo-500/50 group shadow-xs"
         >
           <div className="flex items-center justify-between text-slate-600 dark:text-slate-400 mb-1">
-            <span className="text-sm font-mono font-medium">REQUIREMENTS</span>
+            <span className="text-xs font-mono font-medium">REQUIREMENTS</span>
             <Kanban className="w-4 h-4 text-sky-600 dark:text-indigo-400 group-hover:scale-110 transition-transform" />
           </div>
           <div className="text-2xl font-bold text-sky-800 dark:text-indigo-300">
@@ -154,7 +154,7 @@ export const DashboardView: React.FC = () => {
           className="bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-300 dark:border-slate-800/90 rounded-lg p-3 cursor-pointer transition-all hover:border-emerald-500/60 dark:hover:border-emerald-500/50 group shadow-xs"
         >
           <div className="flex items-center justify-between text-slate-600 dark:text-slate-400 mb-1">
-            <span className="text-sm font-mono font-medium">HARVEST CANDIDATES</span>
+            <span className="text-xs font-mono font-medium">HARVEST CANDIDATES</span>
             <Wheat className="w-4 h-4 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
           </div>
           <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">
@@ -171,7 +171,7 @@ export const DashboardView: React.FC = () => {
           className="bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-300 dark:border-slate-800/90 rounded-lg p-3 cursor-pointer transition-all hover:border-amber-500/60 dark:hover:border-amber-500/50 group shadow-xs"
         >
           <div className="flex items-center justify-between text-slate-600 dark:text-slate-400 mb-1">
-            <span className="text-sm font-mono font-medium">OPEN QUESTIONS</span>
+            <span className="text-xs font-mono font-medium">OPEN QUESTIONS</span>
             <HelpCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
           </div>
           <div className="text-2xl font-bold text-amber-700 dark:text-amber-300">
@@ -188,7 +188,7 @@ export const DashboardView: React.FC = () => {
           className="bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-900 border border-slate-300 dark:border-slate-800/90 rounded-lg p-3 cursor-pointer transition-all hover:border-blue-500/60 dark:hover:border-blue-500/50 group shadow-xs"
         >
           <div className="flex items-center justify-between text-slate-600 dark:text-slate-400 mb-1">
-            <span className="text-sm font-mono font-medium">AGENT AUDIT LOGS</span>
+            <span className="text-xs font-mono font-medium">AGENT AUDIT LOGS</span>
             <FileCheck className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
           </div>
           <div className="text-2xl font-bold text-blue-700 dark:text-blue-300">
@@ -206,7 +206,7 @@ export const DashboardView: React.FC = () => {
         {/* Requirement Status Lifecycle Distribution */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 shadow-xs">
           <div className="flex items-center justify-between mb-3 border-b border-slate-200 dark:border-slate-800/80 pb-2">
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 flex items-center gap-2">
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-sky-700 dark:text-indigo-400" />
               Requirements Lifecycle Distribution
             </h2>
@@ -251,7 +251,7 @@ export const DashboardView: React.FC = () => {
         <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 flex flex-col justify-between shadow-xs">
           <div>
             <div className="flex items-center justify-between mb-3 border-b border-slate-200 dark:border-slate-800/80 pb-2">
-              <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 flex items-center gap-2">
+              <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 CPF Readiness Framework
               </h2>
@@ -260,7 +260,7 @@ export const DashboardView: React.FC = () => {
               </span>
             </div>
 
-            <div className="space-y-2 font-mono text-sm">
+            <div className="space-y-2 font-mono text-xs">
               <div className="flex items-center justify-between p-2 bg-slate-100 dark:bg-slate-950/60 rounded border border-slate-200 dark:border-slate-800">
                 <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Ready for Plan Promotion</span>
                 <span className="text-emerald-800 dark:text-emerald-300 font-bold">{cpfCount.ready}</span>
@@ -282,7 +282,7 @@ export const DashboardView: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('cpf')}
-            className="w-full mt-4 py-2 bg-purple-100 dark:bg-purple-950/80 hover:bg-purple-200 dark:hover:bg-purple-900/80 text-purple-900 dark:text-purple-300 border border-purple-300 dark:border-purple-800/80 rounded text-sm font-mono font-bold transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
+            className="w-full mt-4 py-2 bg-purple-100 dark:bg-purple-950/80 hover:bg-purple-200 dark:hover:bg-purple-900/80 text-purple-900 dark:text-purple-300 border border-purple-300 dark:border-purple-800/80 rounded text-xs font-mono font-bold transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
           >
             <Filter className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
             Open Full CPF Funnel Dashboard
@@ -293,7 +293,7 @@ export const DashboardView: React.FC = () => {
       {/* Real-time WebSocket Event Log */}
       <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 font-mono shadow-xs">
         <div className="flex items-center justify-between mb-2 pb-2 border-b border-slate-200 dark:border-slate-800">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 flex items-center gap-2">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300 flex items-center gap-2">
             <Activity className="w-4 h-4 text-sky-700 dark:text-indigo-400 animate-pulse" />
             Live WebSocket Real-Time Event Stream
           </h2>
@@ -302,7 +302,7 @@ export const DashboardView: React.FC = () => {
           </span>
         </div>
 
-        <div className="space-y-1.5 max-h-48 overflow-y-auto text-sm">
+        <div className="space-y-1.5 max-h-48 overflow-y-auto text-xs">
           {activityLogs.map((log) => (
             <div
               key={log.id}

@@ -200,14 +200,14 @@ export const RequirementsKanban: React.FC = () => {
             <KanbanIcon className="w-5 h-5 text-sky-700 dark:text-indigo-400" />
             REQUIREMENTS PROCESS CONTROL KANBAN
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             8 Canonical Status Lifecycle & Stage 2 WorkRequest IR Compiler
           </p>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
           {/* System filter */}
-          <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-2.5 py-1 rounded text-sm font-mono">
+          <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-2.5 py-1 rounded text-xs font-mono">
             <Filter className="w-3.5 h-3.5 text-slate-500" />
             <select
               value={selectedSystemFilter}
@@ -229,13 +229,13 @@ export const RequirementsKanban: React.FC = () => {
             placeholder="Filter titles..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded px-2.5 py-1 text-sm text-slate-800 dark:text-slate-200 font-mono outline-none focus:border-sky-500 dark:focus:border-indigo-500"
+            className="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 font-mono outline-none focus:border-sky-500 dark:focus:border-indigo-500"
           />
 
           {/* Add requirement button */}
           <button
             onClick={() => setCreateModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 dark:bg-indigo-600 hover:bg-sky-500 dark:hover:bg-indigo-500 text-white rounded text-sm font-mono font-semibold transition-colors shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 dark:bg-indigo-600 hover:bg-sky-500 dark:hover:bg-indigo-500 text-white rounded text-xs font-mono font-semibold transition-colors shadow-xs"
           >
             <Plus className="w-4 h-4" />
             New Requirement
@@ -256,7 +256,7 @@ export const RequirementsKanban: React.FC = () => {
                 className="w-64 shrink-0 flex flex-col rounded-lg border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-2.5 h-full shadow-xs"
               >
                 {/* Column Header */}
-                <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200 dark:border-slate-800/80 font-mono text-sm">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200 dark:border-slate-800/80 font-mono text-xs">
                   <span className={`font-bold uppercase tracking-wider ${style.text}`}>
                     {status}
                   </span>
@@ -270,7 +270,7 @@ export const RequirementsKanban: React.FC = () => {
                   {columnReqs.map((req) => (
                     <div
                       key={req.id}
-                      className="bg-slate-50 dark:bg-slate-950/90 hover:bg-slate-100 dark:hover:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/60 dark:hover:border-slate-700 rounded p-2.5 text-sm space-y-2 shadow-2xs transition-all group"
+                      className="bg-slate-50 dark:bg-slate-950/90 hover:bg-slate-100 dark:hover:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/60 dark:hover:border-slate-700 rounded p-2.5 text-xs space-y-2 shadow-2xs transition-all group"
                     >
                       {/* Priority + ID */}
                       <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
@@ -367,7 +367,7 @@ export const RequirementsKanban: React.FC = () => {
               </button>
             </div>
 
-            <form onSubmit={handleCreateRequirement} className="space-y-3 font-mono text-sm">
+            <form onSubmit={handleCreateRequirement} className="space-y-3 font-mono text-xs">
               <div>
                 <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">Target System *</label>
                 <select
@@ -475,7 +475,7 @@ export const RequirementsKanban: React.FC = () => {
       {/* Compiler Inspection Modal */}
       {compileModalReq && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-2xl max-h-[85vh] overflow-y-auto space-y-4 font-mono text-sm text-slate-800 dark:text-slate-200 shadow-2xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-2xl max-h-[85vh] overflow-y-auto space-y-4 font-mono text-xs text-slate-800 dark:text-slate-200 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
               <h2 className="text-sm font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
                 <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />

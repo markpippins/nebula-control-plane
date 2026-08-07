@@ -81,14 +81,14 @@ export const ExecutionPipelineView: React.FC = () => {
             <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             EXECUTION PIPELINE & DISTRIBUTED LEASES
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Work request queue, 300s TTL lease manager & execution attempt receipts
           </p>
         </div>
 
         <button
           onClick={() => setCreateModalOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-sm font-mono font-semibold transition-colors shadow-xs"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-mono font-semibold transition-colors shadow-xs"
         >
           <Plus className="w-4 h-4" />
           Dispatch Execution Request
@@ -97,7 +97,7 @@ export const ExecutionPipelineView: React.FC = () => {
 
       {/* State Summary Stats */}
       {summary && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-sm">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs">
           <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded p-3 shadow-xs">
             <span className="text-slate-600 dark:text-slate-400 font-semibold">Total Work Requests</span>
             <div className="text-xl font-bold text-blue-700 dark:text-blue-400 mt-1">{summary.totalRequests}</div>
@@ -120,8 +120,8 @@ export const ExecutionPipelineView: React.FC = () => {
       )}
 
       {/* Requests Table */}
-      <div className="space-y-3 font-mono text-sm">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400">
+      <div className="space-y-3 font-mono text-xs">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400">
           Work Requests Queue
         </h2>
 
@@ -169,8 +169,8 @@ export const ExecutionPipelineView: React.FC = () => {
       </div>
 
       {/* Receipts */}
-      <div className="space-y-2 font-mono text-sm">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400">
+      <div className="space-y-2 font-mono text-xs">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400">
           Execution Receipts Log
         </h2>
 
@@ -178,7 +178,7 @@ export const ExecutionPipelineView: React.FC = () => {
           {receipts.map((rec) => (
             <div
               key={rec.id}
-              className="p-3 bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded flex items-center justify-between text-sm shadow-2xs"
+              className="p-3 bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded flex items-center justify-between text-xs shadow-2xs"
             >
               <div className="flex items-center gap-2.5">
                 <FileCheck2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
@@ -202,7 +202,7 @@ export const ExecutionPipelineView: React.FC = () => {
       {/* Create Execution Modal */}
       {createModalOpen && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-sm shadow-xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-xs shadow-xl">
             <h2 className="text-sm font-bold text-blue-700 dark:text-blue-400">DISPATCH EXECUTION REQUEST</h2>
             <input
               type="text"

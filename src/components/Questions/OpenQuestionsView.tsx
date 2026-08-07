@@ -133,14 +133,14 @@ export const OpenQuestionsView: React.FC = () => {
             <HelpCircle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             OPEN QUESTIONS & ROLE DELIBERATION
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Ambiguity & conflict resolution protocol between Architect, Engineer, and Inspector roles
           </p>
         </div>
 
         <button
           onClick={() => setCreateModalOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-sm font-mono font-semibold transition-colors shadow-xs"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-mono font-semibold transition-colors shadow-xs"
         >
           <Plus className="w-4 h-4" />
           Raise Open Question
@@ -148,7 +148,7 @@ export const OpenQuestionsView: React.FC = () => {
       </div>
 
       {/* Main Grid: Question List + Deliberation Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0 font-mono text-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0 font-mono text-xs">
         {/* Left List */}
         <div className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-3 overflow-y-auto space-y-2 shadow-xs">
           {questions.map((q) => {
@@ -215,14 +215,14 @@ export const OpenQuestionsView: React.FC = () => {
                 </div>
 
                 <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">{selectedQuestion.title}</h2>
-                <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                <p className="text-slate-700 dark:text-slate-300 text-xs leading-relaxed">
                   {selectedQuestion.description}
                 </p>
               </div>
 
               {/* Answers & Deliberation Threads */}
               <div className="space-y-3">
-                <h3 className="text-sm font-bold uppercase text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+                <h3 className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                   <MessageSquare className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                   Role Deliberation Answers ({selectedQuestion.answers?.length || 0})
                 </h3>
@@ -241,7 +241,7 @@ export const OpenQuestionsView: React.FC = () => {
                           Confidence: {ans.confidence}
                         </span>
                       </div>
-                      <p className="text-slate-800 dark:text-slate-200 text-sm leading-relaxed">{ans.answer}</p>
+                      <p className="text-slate-800 dark:text-slate-200 text-xs leading-relaxed">{ans.answer}</p>
                       {ans.reasoning && (
                         <p className="text-slate-500 dark:text-slate-400 text-[11px] italic">
                           Rationale: {ans.reasoning}
@@ -268,7 +268,7 @@ export const OpenQuestionsView: React.FC = () => {
                     <select
                       value={ansRole}
                       onChange={(e) => setAnsRole(e.target.value)}
-                      className="bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-1.5 text-slate-800 dark:text-slate-200 text-sm font-semibold"
+                      className="bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-1.5 text-slate-800 dark:text-slate-200 text-xs font-semibold"
                     >
                       <option value="architect" className="bg-white dark:bg-slate-900">Role: Architect</option>
                       <option value="engineer" className="bg-white dark:bg-slate-900">Role: Engineer</option>
@@ -279,7 +279,7 @@ export const OpenQuestionsView: React.FC = () => {
                     <select
                       value={ansConfidence}
                       onChange={(e) => setAnsConfidence(e.target.value as any)}
-                      className="bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-1.5 text-slate-800 dark:text-slate-200 text-sm font-semibold"
+                      className="bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-1.5 text-slate-800 dark:text-slate-200 text-xs font-semibold"
                     >
                       <option value="HIGH" className="bg-white dark:bg-slate-900">Confidence: HIGH</option>
                       <option value="MEDIUM" className="bg-white dark:bg-slate-900">Confidence: MEDIUM</option>
@@ -293,7 +293,7 @@ export const OpenQuestionsView: React.FC = () => {
                       placeholder="Submit answer and deliberation consensus..."
                       value={ansText}
                       onChange={(e) => setAnsText(e.target.value)}
-                      className="flex-1 bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-2 text-slate-800 dark:text-slate-200 text-sm outline-none focus:border-amber-500"
+                      className="flex-1 bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded p-2 text-slate-800 dark:text-slate-200 text-xs outline-none focus:border-amber-500"
                     />
                     <button
                       type="submit"
@@ -317,7 +317,7 @@ export const OpenQuestionsView: React.FC = () => {
       {/* Raise Question Modal */}
       {createModalOpen && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-sm shadow-xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-5 w-full max-w-md space-y-3 font-mono text-xs shadow-xl">
             <h2 className="text-sm font-bold text-amber-700 dark:text-amber-400">RAISE OPEN QUESTION</h2>
             <input
               type="text"

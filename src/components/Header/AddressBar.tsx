@@ -54,7 +54,7 @@ export const AddressBar: React.FC = () => {
   };
 
   return (
-    <header className="h-12 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800/80 px-3 flex items-center justify-between text-sm font-mono select-none text-slate-800 dark:text-slate-200 shrink-0 z-30 shadow-2xs">
+    <header className="h-12 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800/80 px-3 flex items-center justify-between text-xs font-mono select-none text-slate-800 dark:text-slate-200 shrink-0 z-30 shadow-2xs">
       {/* Top Left: Branding Box */}
       <div className="flex items-center gap-3">
         <div
@@ -111,7 +111,7 @@ export const AddressBar: React.FC = () => {
         {/* Global Search Bar Trigger */}
         <button
           onClick={() => setSearchOpen(true)}
-          className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-300 px-2.5 py-1 rounded transition-colors text-sm"
+          className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-300 px-2.5 py-1 rounded transition-colors text-xs"
           title="Search all 13 nebula entities (Ctrl+K)"
         >
           <Search className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
