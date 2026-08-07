@@ -1,18 +1,73 @@
+import 'dotenv/config';
 import express from 'express';
 import { createServer } from 'http';
+import http from 'http';
 import path from 'path';
 import { WebSocketServer, WebSocket } from 'ws';
 import { createServer as createViteServer } from 'vite';
 
+// ---------------------------------------------------------------------------
+// Runtime mode from .env (VITE_NCP_MODE):
+//   mock = serve seeded in-memory data on port 3000 (default, no .env needed)
+//   live = proxy /api to the real nebula-srv backend (:3101) on :4014
+// Computed early so the mock-seed gate below can short-circuit in live mode.
+// ---------------------------------------------------------------------------
+const NCP_MODE = (process.env.VITE_NCP_MODE || 'mock').toLowerCase();
+const LIVE_TARGET = process.env.VITE_NCP_TARGET || 'http://localhost:3101';
+
+// Port by mode: mock → 3000 (Google AI Studio default), live → 4014.
+const PORT = NCP_MODE === 'live'
+  ? parseInt(process.env.PORT || '4014', 10)
+  : parseInt(process.env.PORT || '3000', 10);
+
 const app = express();
 app.use(express.json());
 
-const PORT = 4014;
 const httpServer = createServer(app);
 
 // ---------------------------------------------------------------------------
 // In-Memory Database Store seeded with realistic Nebula Process Data
+// (Only populated in mock mode. In live mode, arrays stay empty and API
+//  requests are proxied to nebula-srv at LIVE_TARGET.)
 // ---------------------------------------------------------------------------
+
+// Live-mode HTTP proxy: forwards non-static requests to the real backend.
+function createLiveProxy(targetUrl: string) {
+  const url = new URL(targetUrl);
+  return (req: any, res: any, next: any) => {
+    if (req.path.startsWith('/@') || req.path.startsWith('/src') ||
+        req.path.startsWith('/node_modules') || req.path.startsWith('/favicon') ||
+        req.path === '/') {
+      return next();
+    }
+    console.log(`[nebula-control-plane -> live] ${req.method} ${req.path}`);
+    const rawBody = ['POST', 'PUT', 'PATCH'].includes(req.method) && req.body
+      ? JSON.stringify(req.body) : undefined;
+    const body = rawBody && rawBody !== '{}' ? rawBody : undefined;
+    const headers: Record<string, any> = { ...req.headers, host: `${url.hostname}:${url.port}` };
+    delete headers['content-length'];
+    if (body) headers['content-length'] = Buffer.byteLength(body).toString();
+    const proxyReq = http.request({
+      hostname: url.hostname, port: url.port,
+      path: req.originalUrl || req.url, method: req.method, headers,
+    }, (proxyRes: any) => {
+      res.writeHead(proxyRes.statusCode || 502, proxyRes.headers);
+      proxyRes.pipe(res);
+    });
+    proxyReq.on('error', (err: Error) => {
+      console.error(`[nebula-control-plane -> live] proxy error: ${err.message}`);
+      if (!res.headersSent) res.status(502).json({ error: 'nebula-srv backend unreachable', detail: err.message });
+    });
+    proxyReq.setTimeout(30000, () => { proxyReq.destroy(); });
+    if (body) proxyReq.write(body);
+    proxyReq.end();
+   };
+}
+
+// ============================================================
+// MOCK-MODE SEED DATA + ROUTES (gated — live mode skips this)
+// ============================================================
+if (NCP_MODE === 'mock') {
 
 let systems: any[] = [
   {
@@ -2180,8 +2235,17 @@ app.post('/api/search/semantic', (req, res) => {
     description: ent.descriptionAbbr,
     similarity: 0.85 + Math.random() * 0.12,
   }));
-  res.json({ query: { limit: 10 }, results, total: results.length });
+   res.json({ query: { limit: 10 }, results, total: results.length });
 });
+
+} // end mock-mode REST API block
+else {
+  // ── LIVE MODE ───────────────────────────────────────────────────
+  // All /api/* routes are proxied straight to the real nebula-srv
+  // (Express/PostgreSQL, :3101). No in-memory mock data is loaded.
+  console.log(`[nebula-control-plane] LIVE mode - proxying to ${LIVE_TARGET}`);
+  app.use(createLiveProxy(LIVE_TARGET));
+}
 
 // ---------------------------------------------------------------------------
 // Vite Middleware & Static Server Mounting
@@ -2203,8 +2267,12 @@ async function startServer() {
   }
 
   httpServer.listen(PORT, '0.0.0.0', () => {
-    console.log(`[Nebula-srv IDE Backend] Server running on http://0.0.0.0:${PORT}`);
-    console.log(`[Nebula-srv WebSocket] Real-time engine attached on ws://0.0.0.0:${PORT}/ws`);
+    console.log(`[nebula-control-plane] ${NCP_MODE.toUpperCase()} mode on http://0.0.0.0:${PORT}`);
+    if (NCP_MODE === 'live') {
+      console.log(`[nebula-control-plane] Proxying API to ${LIVE_TARGET}`);
+    } else {
+      console.log(`[nebula-control-plane] WebSocket engine attached on ws://0.0.0.0:${PORT}/ws`);
+    }
   });
 }
 
