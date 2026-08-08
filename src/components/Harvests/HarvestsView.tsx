@@ -72,13 +72,13 @@ export const HarvestsView: React.FC = () => {
             <Wheat className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             HARVESTS & CPF CANDIDATES
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Docklang conversation transcripts & candidate compilation readiness framework (CPF)
           </p>
         </div>
 
         {/* Tab switcher */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 p-1 rounded font-mono text-xs shadow-xs">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 p-1 rounded font-mono text-sm shadow-xs">
           <button
             onClick={() => setActiveTab('candidates')}
             className={`px-3 py-1 rounded transition-colors ${
@@ -103,7 +103,7 @@ export const HarvestsView: React.FC = () => {
       </div>
 
       {activeTab === 'candidates' ? (
-        <div className="space-y-3 font-mono text-xs">
+        <div className="space-y-3 font-mono text-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {candidates.map((cand) => {
               const isPromotable = cand.compilationReadiness >= 0.7;
@@ -134,7 +134,7 @@ export const HarvestsView: React.FC = () => {
                   </div>
 
                   <h3 className="font-bold text-slate-900 dark:text-slate-100 text-sm">{cand.title}</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">{cand.intentDescription}</p>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{cand.intentDescription}</p>
 
                   {/* Tags */}
                   <div className="flex gap-1.5 flex-wrap">
@@ -181,7 +181,7 @@ export const HarvestsView: React.FC = () => {
         </div>
       ) : (
         /* Transcripts tab */
-        <div className="space-y-3 font-mono text-xs">
+        <div className="space-y-3 font-mono text-sm">
           {harvests.map((h) => (
             <div key={h.id} className="bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 rounded-lg p-4 space-y-2 shadow-xs">
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">

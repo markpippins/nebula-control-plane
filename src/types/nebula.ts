@@ -156,14 +156,14 @@ export interface CpfCandidate {
 }
 
 export interface CpfStats {
-  count: number;
+  count?: number;
   ready: number;
   promoted: number;
   nearMiss: number;
   low: number;
-  total: number;
+  total?: number;
   threshold?: number;
-  brackets: {
+  brackets?: {
     '0.90-1.00': number;
     '0.80-0.89': number;
     '0.70-0.79': number;
@@ -298,9 +298,9 @@ export interface ExecutionReceipt {
 
 export interface ExecutionStateSummary {
   requests: Record<string, number>;
-  leases: Record<string, number>;
-  attempts: Record<string, number>;
-  receipts: Record<string, number>;
+  leases?: Record<string, number>;
+  attempts?: Record<string, number>;
+  receipts?: Record<string, number>;
   totalRequests: number;
   activeLeases: number;
 }

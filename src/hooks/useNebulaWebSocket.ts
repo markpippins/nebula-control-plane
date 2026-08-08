@@ -33,21 +33,7 @@ export function useNebulaWebSocket(onEvent?: (event: WebSocketEvent) => void) {
       let wsUrl = apiCfg.wsUrl;
 
       if (!wsUrl) {
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        if (apiCfg.useMock || !apiCfg.baseUrl) {
-          wsUrl = `${protocol}//${window.location.host}/ws`;
-        } else if (apiCfg.baseUrl.startsWith('http')) {
-          try {
-            const u = new URL(apiCfg.baseUrl);
-            // Default to port 3200 for ui-event-bus if using default 3101 port, otherwise use URL host
-            const port = u.port === '3101' ? '3200' : (u.port || '3200');
-            wsUrl = `${protocol}//${u.hostname}:${port}/ws`;
-          } catch (e) {
-            wsUrl = `${protocol}//${window.location.hostname}:3200/ws`;
-          }
-        } else {
-          wsUrl = `${protocol}//${window.location.host}/ws`;
-        }
+        wsUrl = 'ws://localhost:3200/api/events/stream?sender=nebula-control-plane';
       }
 
       setStatus((prev) => ({ ...prev, currentWsUrl: wsUrl }));

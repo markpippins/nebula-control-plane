@@ -60,7 +60,7 @@ export const SearchModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-start justify-center pt-20 px-4 z-50 font-mono text-xs">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-start justify-center pt-20 px-4 z-50 font-mono text-sm">
       <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg w-full max-w-xl shadow-2xl overflow-hidden space-y-0">
         {/* Search Header Input */}
         <div className="p-3 bg-slate-100 dark:bg-slate-950 border-b border-slate-300 dark:border-slate-800 flex items-center gap-2">

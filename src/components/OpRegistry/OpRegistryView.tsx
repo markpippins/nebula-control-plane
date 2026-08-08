@@ -35,22 +35,40 @@ export const OpRegistryView: React.FC = () => {
 
   const handleFork = async (id: string, intent: string) => {
     try {
+      const target = entries.find((e) => e.id === id);
+      const newVer = (target?.version || 1) + 1;
       try {
-        await apiRequest<any>(`/op-registry/${id}/fork`, { method: 'POST' });
+        await apiRequest<any>('/op-registry/fork', {
+          method: 'POST',
+          body: JSON.stringify({
+            source_id: id,
+            sourceId: id,
+            id,
+            new_version: `v${newVer}`,
+            newVersion: newVer,
+          }),
+        });
       } catch {
         try {
-          await apiRequest<any>(`/op-registry/fork`, { method: 'POST', body: JSON.stringify({ id, opRegistryId: id }) });
+          await apiRequest<any>(`/op-registry/${id}/fork`, {
+            method: 'POST',
+            body: JSON.stringify({ source_id: id, new_version: `v${newVer}` }),
+          });
         } catch {
           // Fallback: Client-assisted fork via POST /op-registry
-          const target = entries.find((e) => e.id === id);
           const seq = Array.isArray(target?.opSequence) ? target.opSequence : [];
+          const forkId = `op-${Date.now()}-${intent.toLowerCase().replace(/[^a-z0-9]/g, '-')}-v${newVer}`;
           await apiRequest<any>('/op-registry', {
             method: 'POST',
             body: JSON.stringify({
+              id: forkId,
+              intent_id: `${intent}_FORK`,
               intentId: `${intent}_FORK`,
-              description: `Forked sequence from ${intent} (v${(target?.version || 1) + 1})`,
+              description: `Forked sequence from ${intent} (v${newVer})`,
               opSequence: seq,
-              version: (target?.version || 1) + 1,
+              opcode_template: seq.join(' -> '),
+              version: newVer,
+              status: 'ACTIVE',
             }),
           });
         }
@@ -66,12 +84,18 @@ export const OpRegistryView: React.FC = () => {
     if (!intentId.trim()) return;
     try {
       const ops = opSeqInput.split(',').map((s) => s.trim()).filter(Boolean);
+      const generatedId = `op-${Date.now()}-${intentId.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
       await apiRequest<any>('/op-registry', {
         method: 'POST',
         body: JSON.stringify({
+          id: generatedId,
+          intent_id: intentId,
           intentId,
           description,
           opSequence: ops,
+          opcode_template: ops.join(' -> '),
+          version: 1,
+          status: 'ACTIVE',
         }),
       });
       addActivityLog('OPCODE', `Created opcode sequence for ${intentId}`);
@@ -86,14 +110,14 @@ export const OpRegistryView: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-xs">
+    <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full font-mono text-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-300 dark:border-slate-800 pb-3">
         <div>
           <h1 className="text-lg font-bold tracking-tight text-purple-700 dark:text-purple-400 flex items-center gap-2">
             <Code2 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             OPCODE SEQUENCE REGISTRY
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Known operational intents mapped to executable opcode sequences
           </p>
         </div>
@@ -151,7 +175,7 @@ export const OpRegistryView: React.FC = () => {
                 </div>
               </div>
 
-              <p className="text-slate-700 dark:text-slate-300 text-xs">{item.description || 'No description provided.'}</p>
+              <p className="text-slate-700 dark:text-slate-300 text-sm">{item.description || 'No description provided.'}</p>
 
               <div className="space-y-1">
                 <span className="text-slate-600 dark:text-slate-400 font-bold">Opcode Sequence ({sequence.length}):</span>

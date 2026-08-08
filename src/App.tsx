@@ -16,6 +16,7 @@ import { OpRegistryView } from './components/OpRegistry/OpRegistryView';
 import { PlansDocsView } from './components/PlansDocs/PlansDocsView';
 import { MockConfigModal } from './components/Settings/MockConfigModal';
 import { SearchModal } from './components/Common/SearchModal';
+import { ToastContainer } from './components/Common/ToastContainer';
 
 const AppContent: React.FC = () => {
   const { activeTab } = useNebula();
@@ -69,6 +70,9 @@ const AppContent: React.FC = () => {
 
       {/* Global 13-Entity Search Modal */}
       <SearchModal />
+
+      {/* Global Toast Notification Container */}
+      <ToastContainer />
     </div>
   );
 };

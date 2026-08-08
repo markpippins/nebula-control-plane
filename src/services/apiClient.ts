@@ -3,6 +3,8 @@
  * Configurable client supporting local Express API mock vs external production API (http://localhost:3101/api)
  */
 
+import { toastService } from './toastService';
+
 export interface ApiConfig {
   useMock: boolean;
   baseUrl: string;
@@ -81,13 +83,49 @@ export async function apiRequest<T>(
     });
 
     if (!response.ok) {
-      const errJson = await response.json().catch(() => ({ error: response.statusText }));
-      throw new Error(errJson.error || `HTTP ${response.status}: ${response.statusText}`);
+      let errJson: any = {};
+      let rawText = '';
+      try {
+        rawText = await response.text();
+        errJson = JSON.parse(rawText);
+      } catch (e) {
+        // Response was not JSON
+      }
+
+      const errorMessage =
+        errJson.error ||
+        errJson.message ||
+        (typeof errJson === 'string' ? errJson : null) ||
+        `HTTP ${response.status}: ${response.statusText || 'Server Error'}`;
+
+      const details =
+        errJson.details ||
+        errJson.stack ||
+        (rawText && rawText !== errorMessage ? rawText : undefined);
+
+      // Trigger global toast notification for API errors, especially 500-level backend errors
+      toastService.showApiError(
+        endpoint,
+        response.status,
+        errorMessage,
+        details
+      );
+
+      throw new Error(errorMessage);
     }
 
     return (await response.json()) as T;
   } catch (err: any) {
     console.warn(`[Nebula API Client] Call to ${url} failed:`, err);
+    // If it's a network error (like connection refused or failed to fetch)
+    if (err.name === 'TypeError' || err.message?.includes('fetch') || err.message?.includes('NetworkError')) {
+      toastService.showApiError(
+        endpoint,
+        0,
+        `Network Error: Failed to reach backend at ${url}`,
+        err.message
+      );
+    }
     throw err;
   }
 }
