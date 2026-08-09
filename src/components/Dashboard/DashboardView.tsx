@@ -29,6 +29,7 @@ import {
 import { useNebula } from '../../context/NebulaContext';
 import { apiRequest } from '../../services/apiClient';
 import { Requirement } from '../../types/nebula';
+import { DashboardWidget } from './DashboardWidget';
 
 export const DashboardView: React.FC = () => {
   const { counts, refreshCounts, activityLogs, triggerRefresh, setActiveTab } = useNebula();
@@ -200,6 +201,9 @@ export const DashboardView: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Real-time Recharts Lifecycle Progress Widget */}
+      <DashboardWidget />
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

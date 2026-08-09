@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+@variant steel (&:where(.steel, .steel *));
+@variant light (&:where(.light, .light *));
+
 @layer base {
   :root {
     --bg-canvas: #f8fafc;
@@ -20,9 +24,9 @@
   }
 
   .steel {
-    --bg-canvas: #121926;
-    --bg-card: #1c2636;
-    --border-color: #2e3e56;
+    --bg-canvas: #0b1320;
+    --bg-card: #152238;
+    --border-color: #2b3d58;
     --text-primary: #f1f5f9;
     --text-muted: #94a3b8;
     --accent-color: #38bdf8;
@@ -38,109 +42,173 @@
 /* ==========================================================================
    1. LIGHT MODE SPECIFIC POLISH
    ========================================================================== */
-:root:not(.dark) body {
+.light body,
+.light #root,
+.light main {
   background-color: #f8fafc !important;
   color: #0f172a !important;
 }
 
-:root:not(.dark) input,
-:root:not(.dark) select,
-:root:not(.dark) textarea {
+.light input,
+.light select,
+.light textarea {
   background-color: #ffffff;
   color: #0f172a;
   border-color: #cbd5e1;
 }
 
-:root:not(.dark) ::placeholder {
+.light ::placeholder {
   color: #94a3b8;
+}
+
+/* Ensure light mode backgrounds match light theme across all components */
+.light .bg-slate-950,
+.light .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+.light .bg-slate-900\/90,
+.light .bg-slate-900\/80,
+.light .bg-slate-900\/60,
+.light .bg-slate-950\/90,
+.light .bg-slate-950\/80,
+.light .bg-slate-950\/70,
+.light .bg-slate-950\/60,
+.light .bg-slate-950\/50 {
+  background-color: #ffffff !important;
+}
+
+.light .bg-slate-950\/40,
+.light .bg-slate-950\/30,
+.light .bg-slate-950\/20,
+.light .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+}
+
+.light .border-slate-800,
+.light .border-slate-800\/90,
+.light .border-slate-800\/80,
+.light .border-slate-800\/50,
+.light .border-slate-700,
+.light .border-slate-700\/50 {
+  border-color: #e2e8f0 !important;
+}
+
+.light .text-slate-100,
+.light .text-slate-200 {
+  color: #0f172a !important;
+}
+
+.light .text-slate-300 {
+  color: #1e293b !important;
+}
+
+.light .text-slate-400,
+.light .text-slate-500 {
+  color: #64748b !important;
 }
 
 /* ==========================================================================
    2. DARK MODE (MIDNIGHT PITCH BLACK) POLISH
    ========================================================================== */
-.dark:not(.steel) body {
+.dark body,
+.dark #root,
+.dark main {
   background-color: #09090b !important;
   color: #f4f4f5 !important;
 }
 
-.dark:not(.steel) input,
-.dark:not(.steel) select,
-.dark:not(.steel) textarea {
+.dark input,
+.dark select,
+.dark textarea {
   color: #f4f4f5;
 }
 
-.dark:not(.steel) .bg-slate-950 {
+.dark .bg-slate-950 {
   background-color: #09090b !important;
 }
 
-.dark:not(.steel) .bg-slate-900 {
+.dark .bg-slate-900 {
   background-color: #121215 !important;
 }
 
-.dark:not(.steel) .bg-slate-900\/90,
-.dark:not(.steel) .bg-slate-900\/80,
-.dark:not(.steel) .bg-slate-900\/60,
-.dark:not(.steel) .bg-slate-950\/90,
-.dark:not(.steel) .bg-slate-950\/80,
-.dark:not(.steel) .bg-slate-950\/70,
-.dark:not(.steel) .bg-slate-950\/60,
-.dark:not(.steel) .bg-slate-950\/50 {
+.dark .bg-slate-900\/90,
+.dark .bg-slate-900\/80,
+.dark .bg-slate-900\/60,
+.dark .bg-slate-950\/90,
+.dark .bg-slate-950\/80,
+.dark .bg-slate-950\/70,
+.dark .bg-slate-950\/60,
+.dark .bg-slate-950\/50 {
   background-color: #16161a !important;
 }
 
-.dark:not(.steel) .bg-slate-950\/40,
-.dark:not(.steel) .bg-slate-950\/30,
-.dark:not(.steel) .bg-slate-950\/20,
-.dark:not(.steel) .bg-slate-800 {
+.dark .bg-slate-950\/40,
+.dark .bg-slate-950\/30,
+.dark .bg-slate-950\/20,
+.dark .bg-slate-800 {
   background-color: #1e1e22 !important;
 }
 
-.dark:not(.steel) .bg-slate-800\/80,
-.dark:not(.steel) .bg-slate-800\/50,
-.dark:not(.steel) .bg-slate-700 {
+.dark .bg-slate-800\/80,
+.dark .bg-slate-800\/50,
+.dark .bg-slate-700 {
   background-color: #26262b !important;
 }
 
-.dark:not(.steel) .border-slate-800,
-.dark:not(.steel) .border-slate-800\/90,
-.dark:not(.steel) .border-slate-800\/80,
-.dark:not(.steel) .border-slate-800\/50,
-.dark:not(.steel) .border-slate-700,
-.dark:not(.steel) .border-slate-700\/50 {
+.dark .border-slate-800,
+.dark .border-slate-800\/90,
+.dark .border-slate-800\/80,
+.dark .border-slate-800\/50,
+.dark .border-slate-700,
+.dark .border-slate-700\/50 {
   border-color: #27272a !important;
 }
 
-.dark:not(.steel) .text-slate-100,
-.dark:not(.steel) .text-slate-200 {
+.dark .text-slate-100,
+.dark .text-slate-200 {
   color: #f4f4f5 !important;
 }
 
-.dark:not(.steel) .text-slate-300 {
+.dark .text-slate-300 {
   color: #e4e4e7 !important;
 }
 
-.dark:not(.steel) .text-slate-400,
-.dark:not(.steel) .text-slate-500 {
+.dark .text-slate-400,
+.dark .text-slate-500 {
   color: #a1a1aa !important;
 }
 
 /* ==========================================================================
-   3. STEEL MODE (INDUSTRIAL METALLIC SLATE) POLISH
+   3. STEEL MODE (INDUSTRIAL METALLIC SLATE BLUE) POLISH
    ========================================================================== */
-.steel body {
-  background-color: #121926 !important;
+.steel body,
+.steel #root,
+.steel main {
+  background-color: #0b1320 !important;
   color: #f1f5f9 !important;
 }
 
 .steel input,
 .steel select,
 .steel textarea {
-  color: #f1f5f9;
+  background-color: #172337 !important;
+  color: #f1f5f9 !important;
+  border-color: #2c3e55 !important;
 }
 
+.steel .bg-white,
 .steel .bg-slate-950,
 .steel .bg-slate-900 {
-  background-color: #121926 !important;
+  background-color: #152238 !important;
+}
+
+.steel .bg-slate-50 {
+  background-color: #0b1320 !important;
+}
+
+.steel .bg-slate-100 {
+  background-color: #1e2d46 !important;
 }
 
 .steel .bg-slate-900\/90,
@@ -151,19 +219,19 @@
 .steel .bg-slate-950\/70,
 .steel .bg-slate-950\/60,
 .steel .bg-slate-950\/50 {
-  background-color: #1c2636 !important;
+  background-color: #152238 !important;
 }
 
 .steel .bg-slate-950\/40,
 .steel .bg-slate-950\/30,
 .steel .bg-slate-950\/20,
 .steel .bg-slate-800 {
-  background-color: #172130 !important;
+  background-color: #1d2c44 !important;
 }
 
 .steel .bg-slate-200,
 .steel .bg-slate-300 {
-  background-color: #1a2535 !important;
+  background-color: #1e2d46 !important;
 }
 
 .steel .border-slate-800,
@@ -171,17 +239,21 @@
 .steel .border-slate-800\/50,
 .steel .border-slate-700,
 .steel .border-slate-700\/50,
-.steel .border-slate-300 {
-  border-color: #2e3e56 !important;
+.steel .border-slate-300,
+.steel .border-slate-200 {
+  border-color: #2b3d58 !important;
 }
 
 .steel .text-slate-200,
-.steel .text-slate-100 {
+.steel .text-slate-100,
+.steel .text-slate-900,
+.steel .text-slate-800 {
   color: #f1f5f9 !important;
 }
 
 .steel .text-slate-400,
-.steel .text-slate-500 {
+.steel .text-slate-500,
+.steel .text-slate-600 {
   color: #94a3b8 !important;
 }
 
@@ -221,4 +293,3 @@
 .steel ::-webkit-scrollbar-thumb:hover {
   background: #526f98;
 }
-

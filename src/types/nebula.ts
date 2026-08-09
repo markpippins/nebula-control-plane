@@ -392,6 +392,27 @@ export interface CrossReference {
   createdAt: number;
 }
 
+export interface EvidenceLink {
+  id: string;
+  knowledgeEntityId: string;
+  nebulaHarvestId: string;
+  nebulaCandidateId: string;
+  linkType: string;
+  provenance: string;
+  confidence: number;
+  metadata?: Record<string, unknown>;
+  createdAt: number;
+}
+
+export interface KnowledgeSummary {
+  entityCount: number;
+  edgeCount: number;
+  crossReferenceCount: number;
+  bySection: Array<{ section: string; count: number }>;
+  byRelationType: Array<{ relation_type: string; count: number }>;
+  embeddingSummary: Array<{ section: string; entity_count: number; embedded_count: number }>;
+}
+
 export interface RoleDefinition {
   id: string;
   name: string;

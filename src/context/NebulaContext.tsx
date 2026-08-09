@@ -70,7 +70,7 @@ export const NebulaProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     } else if (theme === 'dark') {
       root.classList.add('dark');
     } else if (theme === 'steel') {
-      root.classList.add('dark', 'steel');
+      root.classList.add('steel');
     }
     localStorage.setItem('nebula_theme', theme);
   }, [theme]);

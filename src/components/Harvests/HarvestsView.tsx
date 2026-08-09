@@ -9,6 +9,8 @@ import {
   TrendingUp,
   Search,
   Code2,
+  Compass,
+  Rocket,
 } from 'lucide-react';
 import { useNebula } from '../../context/NebulaContext';
 import { apiRequest } from '../../services/apiClient';
@@ -20,6 +22,13 @@ export const HarvestsView: React.FC = () => {
   const [candidates, setCandidates] = useState<HarvestCandidate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'candidates' | 'transcripts'>('candidates');
+
+  // Discover state
+  const [discovering, setDiscovering] = useState<boolean>(false);
+
+  // Spawn Plan state
+  const [spawningCandId, setSpawningCandId] = useState<string | null>(null);
+  const [spawnTitle, setSpawnTitle] = useState('');
 
   const loadData = async () => {
     setLoading(true);
@@ -64,6 +73,41 @@ export const HarvestsView: React.FC = () => {
     }
   };
 
+  // Trigger Candidate Discovery (`POST /api/harvest-candidates/discover`)
+  const handleDiscoverCandidates = async () => {
+    setDiscovering(true);
+    try {
+      const res = await apiRequest<{ discovered: HarvestCandidate[] }>('/harvest-candidates/discover', {
+        method: 'POST',
+        body: JSON.stringify({ scope: 'FULL' }),
+      });
+      alert(`Candidate discovery complete! Found ${res?.discovered?.length || 0} candidate(s).`);
+      loadData();
+      refreshCounts();
+    } catch (err: any) {
+      alert(`Discovery failed: ${err.message}`);
+    } finally {
+      setDiscovering(false);
+    }
+  };
+
+  // Spawn Plan directly from Candidate (`POST /api/harvest-candidates/:id/spawn-plan`)
+  const handleSpawnPlan = async (candId: string) => {
+    try {
+      const res = await apiRequest<any>(`/harvest-candidates/${candId}/spawn-plan`, {
+        method: 'POST',
+        body: JSON.stringify({ title: spawnTitle }),
+      });
+      alert(`Plan successfully spawned! Plan ID: ${res?.plan?.id || res?.id || 'new-plan'}`);
+      setSpawningCandId(null);
+      setSpawnTitle('');
+      loadData();
+      refreshCounts();
+    } catch (err: any) {
+      alert(`Spawn plan failed: ${err.message}`);
+    }
+  };
+
   return (
     <div className="p-4 space-y-4 font-sans text-slate-900 dark:text-slate-100 overflow-y-auto h-full">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-300 dark:border-slate-800 pb-3">
@@ -77,28 +121,40 @@ export const HarvestsView: React.FC = () => {
           </p>
         </div>
 
-        {/* Tab switcher */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 p-1 rounded font-mono text-sm shadow-xs">
+        <div className="flex items-center gap-2">
+          {/* Discovery Trigger Button */}
           <button
-            onClick={() => setActiveTab('candidates')}
-            className={`px-3 py-1 rounded transition-colors ${
-              activeTab === 'candidates'
-                ? 'bg-emerald-600 text-white font-bold'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-            }`}
+            onClick={handleDiscoverCandidates}
+            disabled={discovering}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded text-sm font-mono font-semibold transition-colors shadow-xs"
           >
-            Candidates ({candidates.length})
+            <Compass className={`w-4 h-4 ${discovering ? 'animate-spin' : ''}`} />
+            {discovering ? 'Discovering...' : 'Discover Candidates (`POST /discover`)'}
           </button>
-          <button
-            onClick={() => setActiveTab('transcripts')}
-            className={`px-3 py-1 rounded transition-colors ${
-              activeTab === 'transcripts'
-                ? 'bg-emerald-600 text-white font-bold'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-            }`}
-          >
-            Harvest Transcripts ({harvests.length})
-          </button>
+
+          {/* Tab switcher */}
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 p-1 rounded font-mono text-sm shadow-xs">
+            <button
+              onClick={() => setActiveTab('candidates')}
+              className={`px-3 py-1 rounded transition-colors ${
+                activeTab === 'candidates'
+                  ? 'bg-emerald-600 text-white font-bold'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              Candidates ({candidates.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('transcripts')}
+              className={`px-3 py-1 rounded transition-colors ${
+                activeTab === 'transcripts'
+                  ? 'bg-emerald-600 text-white font-bold'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              Harvest Transcripts ({harvests.length})
+            </button>
+          </div>
         </div>
       </div>
 
@@ -148,31 +204,75 @@ export const HarvestsView: React.FC = () => {
                     ))}
                   </div>
 
-                  {/* Promotion Action */}
-                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                  {/* Direct Spawn Plan Form toggle */}
+                  {spawningCandId === cand.id && (
+                    <div className="p-2.5 bg-blue-50 dark:bg-slate-950 rounded border border-blue-200 dark:border-blue-900 space-y-2">
+                      <label className="block text-xs font-bold text-blue-900 dark:text-blue-300">
+                        Custom Plan Title (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={spawnTitle}
+                        onChange={(e) => setSpawnTitle(e.target.value)}
+                        placeholder={cand.title}
+                        className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded p-1.5 text-xs text-slate-800 dark:text-slate-200 outline-none"
+                      />
+                      <div className="flex justify-end gap-2">
+                        <button
+                          onClick={() => setSpawningCandId(null)}
+                          className="px-2 py-1 text-xs bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-300 rounded font-semibold"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={() => handleSpawnPlan(cand.id)}
+                          className="px-2.5 py-1 text-xs bg-blue-600 text-white rounded font-semibold flex items-center gap-1"
+                        >
+                          <Rocket className="w-3 h-3" />
+                          Confirm Spawn Plan
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Promotion / Spawn Action */}
+                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
                     <span className="text-[10px] text-slate-500">
                       Status: <strong className="text-slate-800 dark:text-slate-300">{cand.status || 'new'}</strong>
                     </span>
 
-                    {cand.completed ? (
-                      <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 text-[11px] font-bold">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        Promoted
-                      </span>
-                    ) : (
+                    <div className="flex items-center gap-2">
                       <button
-                        onClick={() => handlePromoteCandidate(cand.id)}
-                        disabled={!isPromotable}
-                        className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-bold transition-colors ${
-                          isPromotable
-                            ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-2xs'
-                            : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
-                        }`}
+                        onClick={() => {
+                          setSpawningCandId(cand.id);
+                          setSpawnTitle(cand.title);
+                        }}
+                        className="flex items-center gap-1 px-2.5 py-1 bg-sky-100 dark:bg-sky-950 hover:bg-sky-200 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-800 rounded text-[11px] font-bold transition-colors"
                       >
-                        <Sparkles className="w-3.5 h-3.5" />
-                        Promote to Plan
+                        <Rocket className="w-3.5 h-3.5" />
+                        Spawn Plan (`POST /spawn-plan`)
                       </button>
-                    )}
+
+                      {cand.completed ? (
+                        <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 text-[11px] font-bold">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          Promoted
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => handlePromoteCandidate(cand.id)}
+                          disabled={!isPromotable}
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-bold transition-colors ${
+                            isPromotable
+                              ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-2xs'
+                              : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+                          }`}
+                        >
+                          <Sparkles className="w-3.5 h-3.5" />
+                          Promote to Plan
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               );

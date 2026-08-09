@@ -35,13 +35,30 @@ export const OpenQuestionsView: React.FC = () => {
   const loadQuestions = async () => {
     setLoading(true);
     try {
-      const res = await apiRequest<{ items: OpenQuestion[] } | { questions: OpenQuestion[] } | OpenQuestion[]>('/open-questions');
+      const res = await apiRequest<
+        | { items: OpenQuestion[] }
+        | { questions: OpenQuestion[] }
+        | { data: { questions: OpenQuestion[] } | OpenQuestion[] }
+        | { openQuestions: OpenQuestion[] }
+        | { open_questions: OpenQuestion[] }
+        | OpenQuestion[]
+      >('/open-questions');
       const items = Array.isArray(res)
         ? res
         : Array.isArray((res as any)?.questions)
         ? (res as any).questions
+        : Array.isArray((res as any)?.data?.questions)
+        ? (res as any).data.questions
+        : Array.isArray((res as any)?.data?.items)
+        ? (res as any).data.items
+        : Array.isArray((res as any)?.data)
+        ? (res as any).data
         : Array.isArray((res as any)?.items)
         ? (res as any).items
+        : Array.isArray((res as any)?.openQuestions)
+        ? (res as any).openQuestions
+        : Array.isArray((res as any)?.open_questions)
+        ? (res as any).open_questions
         : [];
       setQuestions(items);
       if (items.length > 0 && !selectedQuestion) {
