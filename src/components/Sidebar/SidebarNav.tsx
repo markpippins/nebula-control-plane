@@ -87,7 +87,6 @@ export const SidebarNav: React.FC = () => {
       id: 'opregistry',
       label: 'OP Registry',
       icon: Code2,
-      badge: counts?.intents || null,
       badgeColor: 'bg-purple-600 text-white',
     },
     {
