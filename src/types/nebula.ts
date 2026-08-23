@@ -461,7 +461,6 @@ export interface SearchResultItem {
     | 'candidate'
     | 'harvest'
     | 'open_question'
-    | 'intent'
     | 'assessment'
     | 'observation'
     | 'agent_record'
