@@ -57,13 +57,19 @@ export const CpfFunnelView: React.FC = () => {
           low: statsRes.low ?? 0,
         });
       }
-      const safeItems = Array.isArray(candidatesRes?.data)
+      const safeItems = (Array.isArray(candidatesRes?.data)
         ? candidatesRes.data
         : Array.isArray(candidatesRes?.items)
         ? candidatesRes.items
         : Array.isArray(candidatesRes)
         ? (candidatesRes as unknown as CpfCandidate[])
-        : [];
+        : []
+      ).map((c: any) => {
+        // Defensive: PG numeric columns arrive as strings from some
+        // backends; coerce so .toFixed()/comparisons never crash.
+        const n = Number(c?.compilation_readiness);
+        return { ...c, compilation_readiness: Number.isFinite(n) ? n : 0 };
+      });
       setCandidates(safeItems);
     } catch (err) {
       console.warn('[CPF] Failed to fetch CPF data:', err);
