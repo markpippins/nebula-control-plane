@@ -4,6 +4,7 @@
  */
 
 import { toastService } from './toastService';
+import { resolveLacMode, resolveTargetUrl } from './lac';
 
 export interface ApiConfig {
   useMock: boolean;
@@ -11,29 +12,25 @@ export interface ApiConfig {
   wsUrl?: string;
 }
 
+// LAC (thread 83d2fd5c): env is the sole mode authority, resolved once.
+// VITE_NCP_MODE=mock is an explicit opt-in; default is live. The persisted
+// localStorage config (previously restored at boot) is retired — the
+// in-UI toggle remains session-only.
+const LAC_ENV = (typeof import.meta !== 'undefined' ? (import.meta as any).env : undefined) as
+  | Record<string, unknown>
+  | undefined;
+
 let currentConfig: ApiConfig = {
-  useMock: true,
-  baseUrl: '/api',
+  useMock: resolveLacMode(LAC_ENV, 'VITE_NCP_MODE') === 'mock',
+  baseUrl: resolveTargetUrl(LAC_ENV, 'VITE_NCP_TARGET', '/api'),
 };
 
 export function setApiConfig(config: Partial<ApiConfig>) {
+  // Session-only override; never persisted (LAC rule 1).
   currentConfig = { ...currentConfig, ...config };
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('nebula_api_config', JSON.stringify(currentConfig));
-  }
 }
 
 export function getApiConfig(): ApiConfig {
-  if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('nebula_api_config');
-    if (saved) {
-      try {
-        currentConfig = JSON.parse(saved);
-      } catch (e) {
-        // use default
-      }
-    }
-  }
   return currentConfig;
 }
 

@@ -445,7 +445,6 @@ export interface CountsSummary {
   candidates: number;
   harvests: number;
   openQuestions: number;
-  intents: number;
   assessments: number;
   observations: number;
   agentRecords: number;
@@ -462,7 +461,6 @@ export interface SearchResultItem {
     | 'candidate'
     | 'harvest'
     | 'open_question'
-    | 'intent'
     | 'assessment'
     | 'observation'
     | 'agent_record'

@@ -37,6 +37,7 @@ function createLiveProxy(targetUrl: string) {
   return (req: any, res: any, next: any) => {
     if (req.path.startsWith('/@') || req.path.startsWith('/src') ||
         req.path.startsWith('/node_modules') || req.path.startsWith('/favicon') ||
+        req.path.startsWith('/assets/') ||
         req.path === '/') {
       return next();
     }

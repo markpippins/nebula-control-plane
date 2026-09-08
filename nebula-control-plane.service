@@ -8,6 +8,10 @@ WorkingDirectory=/home/codex/dev/nexus/angular/nebula-control-plane
 ExecStart=/home/codex/.nvm/versions/node/v24.15.0/bin/node /home/codex/dev/nexus/angular/nebula-control-plane/dist/server.cjs
 Environment=PORT=4014
 Environment=NODE_ENV=production
+# Live mode explicitly pinned — do not let a missing/stale .env silently
+# degrade the production unit to seeded mock data.
+Environment=VITE_NCP_MODE=live
+Environment=VITE_NCP_TARGET=http://localhost:3101
 Restart=on-failure
 RestartSec=5
 

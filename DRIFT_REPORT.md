@@ -105,7 +105,7 @@ The NCP types assume "array OR `{ items }`" responses; nebula-srv standardly ret
 ## 3. Per-endpoint detailed deltas
 
 ### `/api/counts` (C-01) — ✅ OK
-- Frontend `CountsSummary` typed keys: `threads`, `requirements`, `agendas`, `candidates`, `harvests`, `openQuestions`, `intents`, `assessments`, `observations`, `agentRecords`, `specifications`, `plans`.
+- Frontend `CountsSummary` typed keys: `threads`, `requirements`, `agendas`, `candidates`, `harvests`, `openQuestions`, `assessments`, `observations`, `agentRecords`, `specifications`, `plans`.
 - Live backend returns all above **plus** `users: 20` and `toDoThreads: 82` (extra keys ignored by UI).
 - **Status:** Compatible.
 
